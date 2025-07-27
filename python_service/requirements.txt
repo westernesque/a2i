@@ -1,3 +1,6 @@
 flask
 pillow
-pydub 
+pydub
+requests
+python-dotenv
+numpy 

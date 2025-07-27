@@ -1,1 +1,7 @@
 **/node_modules/
+# environment variables file
+*.env
+# test audio files/everything in the /test_audio dir
+**/test_files/
+# python cache files
+**/__pycache__/
