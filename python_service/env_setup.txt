@@ -1,34 +1,29 @@
-# Environment Variables Setup Guide
+# Environment Setup Guide
 
-Create a file called `.env` in the python_service directory with the following content:
+## Required API Keys
 
-## Required for HuggingFace Image Generation:
-HUGGINGFACE_API_KEY=hf_your_new_token_here
+### Replicate API Key
+1. Go to https://replicate.com/
+2. Sign up or log in to your account
+3. Go to your account settings
+4. Generate a new API token
+5. Add $5+ credit to your account (required for API usage)
 
-## Optional for Replicate Image Generation:
-REPLICATE_API_KEY=r8_your_replicate_token_here
+## Setup Instructions
 
-## Optional for OpenAI Transcription:
-OPENAI_API_KEY=sk-your_openai_token_here
+1. Create a `.env` file in the python_service directory
+2. Add your API keys:
 
-## How to get your HuggingFace API key:
-1. Go to https://huggingface.co/settings/tokens
-2. Sign in to your account
-3. Click "New token"
-4. Give it a name (e.g., "Audio to Image Project")
-5. Select "Read" permissions
-6. Copy the token (starts with hf_)
-7. Replace hf_your_new_token_here with your actual token
+```
+REPLICATE_API_KEY=your_replicate_api_key_here
+```
 
-## How to get your Replicate API key:
-1. Go to https://replicate.com/account/api-tokens
-2. Sign up for a free account
-3. Copy your API token (starts with r8_)
-4. Replace r8_your_replicate_token_here with your actual token
+## Example .env file:
+```
+REPLICATE_API_KEY=r8_your_actual_api_key_here
+```
 
-## How to get your OpenAI API key:
-1. Go to https://platform.openai.com/api-keys
-2. Sign in to your account
-3. Create a new API key
-4. Copy the key (starts with sk-)
-5. Replace sk-your_openai_token_here with your actual key 
+## Notes
+- Replicate provides both transcription (Whisper) and image generation (Stable Diffusion) services
+- You need credit in your Replicate account for API calls to work
+- The system will fall back to placeholder generation if no API key is provided 

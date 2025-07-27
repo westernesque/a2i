@@ -3,7 +3,6 @@ import sys
 from dotenv import load_dotenv
 from whisper_processor import WhisperAudioProcessor
 from replicate_image_generator import ReplicateImageGenerator
-from free_image_generator import FreeImageGenerator
 
 def test_pipeline(audio_file_path):
     """Test the complete audio-to-image pipeline"""
@@ -16,18 +15,16 @@ def test_pipeline(audio_file_path):
         print(f"❌ Audio file not found: {audio_file_path}")
         return False
     
-    print("🎵🎨 FINAL PIPELINE TEST")
+    print("🎵🎨 REPLICATE-ONLY PIPELINE TEST")
     print("=" * 40)
     print(f"📁 Audio file: {audio_file_path}")
     print(f"📏 File size: {os.path.getsize(audio_file_path)} bytes")
     
     # Check API keys
     replicate_key = os.getenv('REPLICATE_API_KEY')
-    openai_key = os.getenv('OPENAI_API_KEY')
     
     print(f"\n🔑 API Keys Status:")
     print(f"  Replicate: {'✅ Found' if replicate_key else '❌ Not found'}")
-    print(f"  OpenAI: {'✅ Found' if openai_key else '❌ Not found'}")
     
     # Initialize processors
     print(f"\n🔧 Initializing processors...")
@@ -37,8 +34,8 @@ def test_pipeline(audio_file_path):
         print("  Using Replicate for AI image generation")
         image_gen = ReplicateImageGenerator(api_key=replicate_key)
     else:
-        print("  Using HuggingFace/placeholder for image generation")
-        image_gen = FreeImageGenerator()
+        print("  Using Replicate placeholder for image generation")
+        image_gen = ReplicateImageGenerator()
     
     try:
         # Step 1: Audio Analysis
@@ -54,7 +51,7 @@ def test_pipeline(audio_file_path):
         print(f"  Complexity: {features.get('complexity', 'unknown')}")
         
         # Step 2: Transcription
-        print(f"\n🎤 STEP 2: Transcription")
+        print(f"\n🎤 STEP 2: Replicate Transcription")
         print("-" * 25)
         transcription = audio_proc.transcribe_audio(audio_file_path)
         
@@ -68,7 +65,7 @@ def test_pipeline(audio_file_path):
         print(f"🎯 Generated Prompt: {prompt}")
         
         # Step 4: Image Generation
-        print(f"\n🖼️ STEP 4: AI Image Generation")
+        print(f"\n🖼️ STEP 4: Replicate Image Generation")
         print("-" * 25)
         print("Creating AI-generated image...")
         img = image_gen.generate_image(prompt)
@@ -76,18 +73,18 @@ def test_pipeline(audio_file_path):
         # Step 5: Save Result
         print(f"\n💾 STEP 5: Save Result")
         print("-" * 25)
-        output_filename = f"final_test_result_{os.path.splitext(os.path.basename(audio_file_path))[0]}.png"
+        output_filename = f"replicate_pipeline_result_{os.path.splitext(os.path.basename(audio_file_path))[0]}.png"
         img.save(output_filename)
         print(f"✅ Image saved as: {output_filename}")
         
         # Summary
-        print(f"\n🎉 PIPELINE SUCCESS!")
+        print(f"\n🎉 REPLICATE PIPELINE SUCCESS!")
         print("=" * 40)
         print(f"✅ Audio analyzed successfully")
         print(f"✅ Content transcribed: {len(transcription)} characters")
         print(f"✅ Art prompt generated: {len(prompt)} characters")
         print(f"✅ AI image created: {output_filename}")
-        print(f"🎵🎨 Audio successfully converted to image!")
+        print(f"🎵🎨 Audio successfully converted to image using Replicate!")
         
         return True
         

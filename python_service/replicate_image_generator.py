@@ -20,7 +20,7 @@ class ReplicateImageGenerator:
             "artistic": "prompthero/openjourney:ad59ca21177f9e217b907481edde9dacfbdb29d5a0ac332e583b64bd646bffaa"
         }
     
-    def generate_image(self, prompt: str, model_type: str = "stable-diffusion") -> Image.Image:
+    def generate_image(self, prompt: str, model_type: str = "realistic") -> Image.Image:
         """Generate image using Replicate API"""
         
         if not self.api_key:
@@ -28,25 +28,31 @@ class ReplicateImageGenerator:
             return self._create_placeholder_image(prompt)
         
         try:
-            model = self.models.get(model_type, self.models["stable-diffusion"])
+            model = self.models.get(model_type, self.models["realistic"])
             
             headers = {
                 "Authorization": f"Token {self.api_key}",
                 "Content-Type": "application/json"
             }
             
-            # Create prediction
+            # Enhance prompt for more colorful, vibrant images
+            enhanced_prompt = self._enhance_prompt_for_color(prompt)
+            
+            # Create prediction with enhanced parameters
             payload = {
                 "version": model,
                 "input": {
-                    "prompt": prompt,
-                    "width": 512,
-                    "height": 512,
-                    "num_outputs": 1
+                    "prompt": enhanced_prompt,
+                    "width": 1024,
+                    "height": 1024,
+                    "num_outputs": 1,
+                    "guidance_scale": 7.5,
+                    "num_inference_steps": 50,
+                    "scheduler": "K_EULER"
                 }
             }
             
-            print(f"Creating prediction with Replicate...")
+            print(f"Creating prediction with Replicate (SDXL)...")
             response = requests.post(
                 self.base_url,
                 headers=headers,
@@ -102,11 +108,55 @@ class ReplicateImageGenerator:
                 print(f"Error creating prediction: {response.status_code}")
                 print(response.text)
                 return self._create_placeholder_image(prompt)
-                
+
         except Exception as e:
             print(f"Error in Replicate image generation: {e}")
             return self._create_placeholder_image(prompt)
-    
+
+    def _enhance_prompt_for_color(self, prompt: str) -> str:
+        """Enhance prompt to encourage more colorful, vibrant images"""
+        # Add color-enhancing keywords
+        color_enhancers = [
+            "vibrant colors",
+            "rich color palette", 
+            "warm tones",
+            "bright and colorful",
+            "saturated colors",
+            "colorful composition",
+            "vivid imagery",
+            "luminous colors"
+        ]
+        
+        # Add artistic style enhancers
+        style_enhancers = [
+            "artistic",
+            "creative",
+            "expressive",
+            "dynamic",
+            "visually striking"
+        ]
+        
+        # Combine original prompt with enhancements
+        enhanced_parts = [prompt]
+        
+        # Add 2-3 random color enhancers
+        import random
+        selected_colors = random.sample(color_enhancers, 2)
+        enhanced_parts.extend(selected_colors)
+        
+        # Add 1-2 style enhancers
+        selected_styles = random.sample(style_enhancers, 1)
+        enhanced_parts.extend(selected_styles)
+        
+        # Add technical quality enhancers
+        enhanced_parts.extend([
+            "high quality",
+            "detailed",
+            "professional digital art"
+        ])
+        
+        return ", ".join(enhanced_parts)
+
     def _create_placeholder_image(self, prompt: str) -> Image.Image:
         """Create a placeholder image when API is not available"""
         # Create a simple placeholder

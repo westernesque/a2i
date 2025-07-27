@@ -1,133 +1,128 @@
-# Audio to Image Converter 🎵🎨
+# Audio to Image Converter
 
-A sophisticated audio-to-image conversion system that analyzes music and generates AI artwork based on musical characteristics, lyrics, and emotional content.
+An experimental project that converts audio files into visual art using AI-powered transcription and image generation.
 
 ## Features
 
-- **Enhanced Audio Analysis**: Extracts detailed musical features (tempo, mood, energy, complexity, style)
-- **Real Audio Transcription**: Uses OpenAI Whisper for actual lyrics/speech transcription
-- **Intelligent Fallbacks**: Sophisticated simulated transcription when APIs are unavailable
-- **AI Image Generation**: Creates artwork using Replicate's Stable Diffusion models
-- **Emotional Analysis**: Extracts emotional themes from audio content
-- **Rich Art Prompts**: Combines musical analysis with lyrical content for detailed prompts
-- **Robust Architecture**: Multiple fallback systems ensure reliability
-
-## Architecture
-
-```
-Audio File → Enhanced Analysis → Transcription → Art Prompt → AI Image Generation
-     ↓              ↓               ↓            ↓              ↓
-  Musical      Whisper API    Emotional    Replicate API   Final Image
-  Features     (or Fallback)   Themes       (or Fallback)
-```
+- **Audio Analysis**: Sophisticated musical feature extraction and analysis
+- **AI Transcription**: Real-time audio-to-text conversion using Replicate's Whisper models
+- **AI Image Generation**: Creates visual art from audio content using Replicate's Stable Diffusion
+- **Enhanced Prompts**: Generates detailed art prompts incorporating musical characteristics and lyrical content
+- **Fallback System**: Intelligent placeholder generation when APIs are unavailable
 
 ## Tech Stack
 
-- **Backend**: Node.js/TypeScript (Express)
-- **Audio Processing**: Python (Flask)
-- **Audio Analysis**: Custom enhanced processor
-- **Transcription**: OpenAI Whisper API
-- **Image Generation**: Replicate API (Stable Diffusion)
-- **Fallbacks**: Sophisticated placeholder systems
+- **Backend**: Node.js with Express and TypeScript
+- **Audio Processing**: Python with Flask
+- **AI Services**: Replicate API (Whisper for transcription, Stable Diffusion for images)
+- **Image Processing**: Pillow (PIL)
 
 ## Quick Start
 
-### 1. Setup Environment
+### Prerequisites
+- Node.js and npm
+- Python 3.8+
+- Replicate API key with account credit
 
-Create a `.env` file in the `python_service` directory:
+### Setup
 
-```bash
-# Required for AI image generation
-REPLICATE_API_KEY=r8_your_replicate_token_here
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd a2i
+   ```
 
-# Optional for real transcription
-OPENAI_API_KEY=sk-your_openai_token_here
+2. **Install backend dependencies**
+   ```bash
+   cd backend
+   npm install
+   ```
 
-# Optional for HuggingFace fallback
-HUGGINGFACE_API_KEY=hf_your_huggingface_token_here
-```
+3. **Install Python dependencies**
+   ```bash
+   cd ../python_service
+   pip install -r requirements.txt
+   ```
 
-### 2. Install Dependencies
+4. **Configure environment variables**
+   ```bash
+   # Create .env file in python_service directory
+   echo "REPLICATE_API_KEY=your_replicate_api_key_here" > .env
+   ```
 
-```bash
-# Backend
-cd backend
-npm install
+5. **Start the services**
+   ```bash
+   # Terminal 1: Start Python service
+   cd python_service
+   python app.py
+   
+   # Terminal 2: Start Node.js backend
+   cd backend
+   npm run dev
+   ```
 
-# Python Service
-cd python_service
-pip install -r requirements.txt
-```
+## API Key Setup
 
-### 3. Run the Services
+### Replicate API Key
+1. Go to https://replicate.com/
+2. Sign up or log in to your account
+3. Go to your account settings
+4. Generate a new API token
+5. Add $5+ credit to your account (required for API usage)
 
-```bash
-# Start Python audio processing service
-cd python_service
-python app.py
-
-# Start Node.js backend (in another terminal)
-cd backend
-npm run dev
-```
-
-### 4. Test the System
-
-Upload an audio file to `http://localhost:3001/upload` and receive an AI-generated image based on the music!
-
-## API Keys Setup
-
-### Replicate (Recommended)
-1. Go to https://replicate.com
-2. Sign up for free account
-3. Get API token from account settings
-4. Add credit (even $1-5 is enough for many images)
-
-### OpenAI (Optional)
-1. Go to https://platform.openai.com/api-keys
-2. Create API key
-3. Add credit for transcription
-
-### HuggingFace (Optional)
-1. Go to https://huggingface.co/settings/tokens
-2. Create new token with "Read" permissions
+The system uses Replicate for both:
+- **Transcription**: Whisper models for audio-to-text conversion
+- **Image Generation**: Stable Diffusion models for creating visual art
 
 ## How It Works
 
-1. **Audio Analysis**: Extracts musical characteristics (tempo, mood, energy, style)
-2. **Transcription**: Gets actual lyrics/speech using Whisper (or intelligent simulation)
-3. **Prompt Generation**: Creates rich art prompts combining music + lyrics + emotions
-4. **Image Generation**: Uses AI to create artwork based on the prompt
-5. **Fallbacks**: Sophisticated systems ensure it works even when APIs fail
+1. **Audio Upload**: Audio file is uploaded to the Node.js backend
+2. **Audio Analysis**: Python service analyzes musical characteristics (tempo, mood, energy, etc.)
+3. **Transcription**: Replicate Whisper converts audio to text, extracting lyrics and content
+4. **Prompt Generation**: Creates detailed art prompts combining musical features and lyrical content
+5. **Image Generation**: Replicate Stable Diffusion generates visual art from the enhanced prompts
+6. **Response**: Returns the generated image to the user
 
 ## File Structure
 
 ```
 a2i/
-├── backend/                 # Node.js backend service
+├── backend/                 # Node.js backend
 │   ├── src/
 │   │   └── index.ts        # Express server
 │   ├── package.json
 │   └── tsconfig.json
-├── python_service/         # Python audio processing service
+├── python_service/         # Python audio processing
 │   ├── app.py             # Flask server
-│   ├── whisper_processor.py      # Enhanced audio processor with transcription
-│   ├── simple_enhanced_processor.py  # Musical analysis engine
-│   ├── replicate_image_generator.py  # AI image generation
-│   ├── free_image_generator.py       # Fallback image generation
+│   ├── whisper_processor.py # Audio processor with Replicate transcription
+│   ├── replicate_image_generator.py # Replicate image generation
+│   ├── simple_enhanced_processor.py # Musical analysis
 │   ├── requirements.txt
-│   └── env_setup.txt      # Environment setup guide
-├── README.md
-└── LICENSE
+│   └── .env               # API keys
+└── README.md
 ```
 
 ## Production Deployment
 
-Ready for deployment to DigitalOcean or any cloud platform. The system includes:
-- Robust error handling
-- Multiple API fallbacks
-- Production-ready Flask server
-- Comprehensive logging
+The system is ready for production deployment on platforms like:
+- **DigitalOcean**: Deploy both services on separate droplets
+- **Heroku**: Deploy Python service with proper WSGI server
+- **Railway**: Easy deployment for both Node.js and Python services
+
+### Environment Variables for Production
+```bash
+REPLICATE_API_KEY=your_production_replicate_key
+FLASK_ENV=production
+NODE_ENV=production
+```
+
+## Testing
+
+Test the complete pipeline:
+```bash
+cd python_service
+python test_replicate_transcription.py
+```
 
 ## License
 

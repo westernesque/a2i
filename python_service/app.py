@@ -4,7 +4,6 @@ import os
 from io import BytesIO
 from dotenv import load_dotenv
 from whisper_processor import WhisperAudioProcessor
-from free_image_generator import FreeImageGenerator
 from replicate_image_generator import ReplicateImageGenerator
 
 # Load environment variables
@@ -17,19 +16,14 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Initialize processors
 audio_processor = WhisperAudioProcessor()
 
-# Try Replicate first, fallback to HuggingFace, then placeholder
+# Use Replicate for image generation
 replicate_key = os.getenv('REPLICATE_API_KEY')
-huggingface_key = os.getenv('HUGGINGFACE_API_KEY')
-
 if replicate_key:
     print("Using Replicate API for image generation")
     image_generator = ReplicateImageGenerator(api_key=replicate_key)
-elif huggingface_key:
-    print("Using HuggingFace API for image generation")
-    image_generator = FreeImageGenerator(api_key=huggingface_key)
 else:
-    print("No API keys found, using placeholder image generation")
-    image_generator = FreeImageGenerator()
+    print("No Replicate API key found, using placeholder image generation")
+    image_generator = ReplicateImageGenerator()
 
 @app.route('/process-audio', methods=['POST'])
 def process_audio():
