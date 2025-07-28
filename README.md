@@ -1,6 +1,8 @@
 # Audio to Image Converter
 
 An experimental project that converts audio files into visual art using AI-powered transcription and image generation.
+<img width="1747" height="1811" alt="Screenshot 2025-07-27 211536" src="https://github.com/user-attachments/assets/15ebfb66-b6e9-44e6-a046-fa8d9f15d93b" />
+"Ocean Bed" - King Krule
 
 ## Features
 
