@@ -76,7 +76,8 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
                 features: result.features,
                 transcription: result.transcription,
                 abstract_prompt: result.abstract_prompt,
-                representational_prompt: result.representational_prompt
+                representational_prompt: result.representational_prompt,
+                detected_instruments: result.detected_instruments
             });
         } else {
             console.error('❌ Python service error:', result.error);

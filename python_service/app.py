@@ -40,11 +40,19 @@ def two_stage_pipeline(audio_file_path):
         features = improved_analyzer.analyze_audio_file(audio_file_path)
         transcription = audio_processor.transcribe_audio(audio_file_path)
         
+        # Detect instruments
+        detected_instruments = improved_analyzer.detect_instruments(audio_file_path, transcription)
+        
         print(f"📊 Analysis: {features.get('mood', 'unknown')} mood, {features.get('energy_level', 'unknown')} energy")
         print(f"📝 Transcription: {transcription[:100]}...")
+        print(f"🎵 Detected instruments: {len(detected_instruments)} found")
+        for inst in detected_instruments:
+            print(f"  • {inst['name']} (confidence: {inst['confidence']:.2f})")
+        if not detected_instruments:
+            print(f"  • No instruments detected")
         
         # Create colorful abstract prompt (focus on colors, not representational)
-        abstract_prompt = create_colorful_abstract_prompt(features, transcription)
+        abstract_prompt = create_colorful_abstract_prompt(features, transcription, detected_instruments)
         print(f"🎯 Abstract Prompt: {abstract_prompt[:200]}...")
         
         # Generate colorful abstract image
@@ -60,7 +68,7 @@ def two_stage_pipeline(audio_file_path):
         print(f"🖼️ STAGE 2: Convert to Representational Art")
         
         # Create representational prompt
-        representational_prompt = create_representational_prompt(features, transcription)
+        representational_prompt = create_representational_prompt(features, transcription, detected_instruments)
         print(f"🎯 Representational Prompt: {representational_prompt[:200]}...")
         
         # Generate representational image
@@ -72,6 +80,9 @@ def two_stage_pipeline(audio_file_path):
         representational_img.save(representational_filename)
         print(f"✅ Representational image saved: {representational_filename}")
         
+        print(f"📤 Response includes {len(detected_instruments)} detected instruments")
+        print(f"📤 Response structure: detected_instruments = {type(detected_instruments)}")
+        
         return {
             'success': True,
             'abstract_image': abstract_filename,
@@ -79,7 +90,8 @@ def two_stage_pipeline(audio_file_path):
             'features': features,
             'transcription': transcription,
             'abstract_prompt': abstract_prompt,
-            'representational_prompt': representational_prompt
+            'representational_prompt': representational_prompt,
+            'detected_instruments': detected_instruments
         }
         
     except Exception as e:
@@ -89,11 +101,11 @@ def two_stage_pipeline(audio_file_path):
             'error': str(e)
         }
 
-def create_colorful_abstract_prompt(features, transcription):
+def create_colorful_abstract_prompt(features, transcription, detected_instruments=None):
     """Create a prompt focused on colorful abstract art"""
     
     # Get color palette from improved analyzer
-    color_palette = improved_analyzer.generate_color_palette(features)
+    color_palette = improved_analyzer.generate_color_palette(features, detected_instruments)
     
     # Build colorful abstract prompt
     prompt_parts = []
@@ -121,18 +133,18 @@ def create_colorful_abstract_prompt(features, transcription):
     
     return " | ".join(prompt_parts)
 
-def create_representational_prompt(features, transcription):
+def create_representational_prompt(features, transcription, detected_instruments=None):
     """Create a prompt focused on representational art"""
     
     # Get color palette from improved analyzer
-    color_palette = improved_analyzer.generate_color_palette(features)
+    color_palette = improved_analyzer.generate_color_palette(features, detected_instruments)
     
     # Build representational prompt
     prompt_parts = []
     
     # Color emphasis
     if color_palette['final_colors']:
-        prompt_parts.append(f"REPRESENTATIONAL ARTWORK featuring {', '.join(color_palette['final_colors'])}")
+        prompt_parts.append(f"REPRESENTATIONAL IMAGE featuring {', '.join(color_palette['final_colors'])}")
         prompt_parts.append(f"Color style: {color_palette['description']}")
     
     # Mood and energy
@@ -145,8 +157,8 @@ def create_representational_prompt(features, transcription):
     prompt_parts.append("REALISTIC and REPRESENTATIONAL imagery")
     prompt_parts.append("NO ABSTRACT ART")
     prompt_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
-    prompt_parts.append("RICH SATURATED COLORS")
-    prompt_parts.append("NO BLACK AND WHITE")
+    # prompt_parts.append("RICH SATURATED COLORS")
+    # prompt_parts.append("NO BLACK AND WHITE")
     
     # Add transcription if available
     if transcription and transcription.strip():
@@ -186,7 +198,8 @@ def upload_audio():
                     'features': result['features'],
                     'transcription': result['transcription'],
                     'abstract_prompt': result['abstract_prompt'],
-                    'representational_prompt': result['representational_prompt']
+                    'representational_prompt': result['representational_prompt'],
+                    'detected_instruments': result.get('detected_instruments', [])
                 })
             else:
                 return jsonify({

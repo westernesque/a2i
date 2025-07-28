@@ -291,8 +291,129 @@ class ImprovedAudioAnalyzer:
         
         return max(10, min(600, theoretical_duration))
 
-    def generate_color_palette(self, features: Dict[str, Any]) -> Dict[str, Any]:
-        """Generate color palette based on analyzed features"""
+    def detect_instruments(self, audio_path: str, transcription: str = "") -> List[Dict[str, Any]]:
+        """Detect instruments based on filename and transcription analysis"""
+        detected_instruments = []
+        file_name = os.path.basename(audio_path).lower()
+        transcription_lower = transcription.lower() if transcription else ""
+        
+        # Comprehensive instrument database with visual characteristics
+        instrument_database = {
+            'piano': {
+                'keywords': ['piano', 'keys', 'keyboard', 'grand', 'upright', 'melody', 'chords'],
+                'visual_elements': ['elegant curves', 'black and white keys', 'wooden frame', 'classical instrument'],
+                'colors': ['warm browns', 'golden tones', 'rich mahogany', 'ivory and ebony'],
+                'textures': ['smooth wood', 'polished surface', 'metallic strings', 'felt hammers'],
+                'mood_associations': ['elegant', 'sophisticated', 'emotional', 'intimate', 'classical']
+            },
+            'guitar': {
+                'keywords': ['guitar', 'acoustic', 'electric', 'strings', 'strum', 'pick', 'chord'],
+                'visual_elements': ['curved body', 'long neck', 'six strings', 'sound hole', 'pickguard'],
+                'colors': ['natural wood', 'sunburst', 'vibrant colors', 'metallic finishes'],
+                'textures': ['wood grain', 'smooth finish', 'metal strings', 'leather strap'],
+                'mood_associations': ['warm', 'intimate', 'passionate', 'folk', 'rock']
+            },
+            'violin': {
+                'keywords': ['violin', 'strings', 'bow', 'melody', 'classical'],
+                'visual_elements': ['curved body', 'elegant neck', 'four strings', 'f-holes', 'scroll'],
+                'colors': ['rich amber', 'deep reds', 'golden browns', 'warm honey'],
+                'textures': ['smooth varnish', 'wood grain', 'horsehair bow', 'ebony fingerboard'],
+                'mood_associations': ['elegant', 'emotional', 'romantic', 'classical', 'sophisticated']
+            },
+            'drums': {
+                'keywords': ['drums', 'percussion', 'beat', 'rhythm', 'kick', 'snare', 'hi-hat'],
+                'visual_elements': ['circular drums', 'metal cymbals', 'wooden shells', 'drumsticks'],
+                'colors': ['metallic silver', 'deep blacks', 'warm browns', 'brass tones'],
+                'textures': ['smooth metal', 'wood grain', 'leather heads', 'brushed steel'],
+                'mood_associations': ['rhythmic', 'powerful', 'energetic', 'dynamic', 'pulsing']
+            },
+            'voice': {
+                'keywords': ['voice', 'vocal', 'sing', 'song', 'lyrics', 'singer'],
+                'visual_elements': ['human figure', 'expressive face', 'microphone', 'stage presence'],
+                'colors': ['warm skin tones', 'expressive colors', 'stage lighting', 'vibrant hues'],
+                'textures': ['smooth skin', 'expressive features', 'dynamic movement', 'emotional expression'],
+                'mood_associations': ['emotional', 'personal', 'expressive', 'intimate', 'powerful']
+            },
+            'nature_sounds': {
+                'keywords': ['bird', 'nature', 'ambient', 'environmental', 'forest', 'ocean'],
+                'visual_elements': ['natural landscapes', 'organic forms', 'environmental elements', 'natural textures'],
+                'colors': ['earth tones', 'natural greens', 'sky blues', 'organic browns'],
+                'textures': ['organic textures', 'natural patterns', 'environmental elements', 'earthly materials'],
+                'mood_associations': ['peaceful', 'natural', 'organic', 'tranquil', 'environmental']
+            },
+            'synth': {
+                'keywords': ['synth', 'electronic', 'digital', 'synthesizer', 'electronic'],
+                'visual_elements': ['digital interfaces', 'electronic circuits', 'futuristic elements', 'technological forms'],
+                'colors': ['neon colors', 'electric blues', 'digital greens', 'futuristic purples'],
+                'textures': ['smooth plastic', 'metallic surfaces', 'digital displays', 'electronic components'],
+                'mood_associations': ['futuristic', 'electronic', 'digital', 'modern', 'technological']
+            }
+        }
+        
+        # Score each instrument based on filename and transcription
+        for instrument_name, instrument_data in instrument_database.items():
+            score = 0
+            detection_reasons = []
+            
+            # Check filename for instrument hints
+            for keyword in instrument_data['keywords']:
+                if keyword in file_name:
+                    score += 3
+                    detection_reasons.append(f"filename contains '{keyword}'")
+            
+            # Check transcription for instrument mentions
+            for keyword in instrument_data['keywords']:
+                if keyword in transcription_lower:
+                    score += 5
+                    detection_reasons.append(f"transcription mentions '{keyword}'")
+            
+            # Add to detected instruments if score is high enough
+            if score >= 3:
+                detected_instruments.append({
+                    'name': instrument_name,
+                    'score': score,
+                    'confidence': min(score / 10.0, 1.0),
+                    'reasons': detection_reasons,
+                    'visual_elements': instrument_data['visual_elements'],
+                    'colors': instrument_data['colors'],
+                    'textures': instrument_data['textures'],
+                    'mood_associations': instrument_data['mood_associations']
+                })
+        
+        # If no instruments detected, make some intelligent assumptions
+        if not detected_instruments:
+            # Assume voice is likely present in most songs (lower confidence)
+            detected_instruments.append({
+                'name': 'voice',
+                'score': 2,
+                'confidence': 0.3,
+                'reasons': ['assumed presence in vocal music'],
+                'visual_elements': instrument_database['voice']['visual_elements'],
+                'colors': instrument_database['voice']['colors'],
+                'textures': instrument_database['voice']['textures'],
+                'mood_associations': instrument_database['voice']['mood_associations']
+            })
+            
+            # Check for subtle hints in filename
+            if any(word in file_name for word in ['melody', 'song', 'music', 'track']):
+                detected_instruments.append({
+                    'name': 'piano',
+                    'score': 2,
+                    'confidence': 0.25,
+                    'reasons': ['melodic content suggested'],
+                    'visual_elements': instrument_database['piano']['visual_elements'],
+                    'colors': instrument_database['piano']['colors'],
+                    'textures': instrument_database['piano']['textures'],
+                    'mood_associations': instrument_database['piano']['mood_associations']
+                })
+        
+        # Sort by confidence score
+        detected_instruments.sort(key=lambda x: x['score'], reverse=True)
+        
+        return detected_instruments
+
+    def generate_color_palette(self, features: Dict[str, Any], detected_instruments: List[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Generate color palette based on analyzed features and detected instruments"""
         mood = features.get('mood', 'balanced')
         energy_level = features.get('energy_level', 'medium')
         musical_style = features.get('musical_style', 'pop')
@@ -314,8 +435,14 @@ class ImprovedAudioAnalyzer:
         
         style_specific = style_colors.get(musical_style, [])
         
-        # Combine and deduplicate colors
-        all_colors = base_colors + style_specific
+        # Add instrument-specific colors if instruments are detected
+        instrument_colors = []
+        if detected_instruments:
+            for instrument in detected_instruments[:2]:  # Top 2 instruments
+                instrument_colors.extend(instrument.get('colors', []))
+        
+        # Combine all color sources
+        all_colors = base_colors + style_specific + instrument_colors
         unique_colors = list(dict.fromkeys(all_colors))  # Preserve order while removing duplicates
         
         # Limit to 6 colors
@@ -336,10 +463,25 @@ class ImprovedAudioAnalyzer:
         
         description = descriptions.get(mood, 'balanced and harmonious')
         
+        # Add instrument influence to description
+        if detected_instruments:
+            top_instrument = detected_instruments[0]['name']
+            if top_instrument == 'piano':
+                description += ' with elegant piano tones'
+            elif top_instrument == 'guitar':
+                description += ' with warm guitar textures'
+            elif top_instrument == 'voice':
+                description += ' with expressive vocal elements'
+            elif top_instrument == 'nature_sounds':
+                description += ' with natural environmental elements'
+            elif top_instrument == 'synth':
+                description += ' with electronic digital elements'
+        
         return {
             'final_colors': final_colors,
             'description': description,
             'mood': mood,
             'energy_level': energy_level,
-            'musical_style': musical_style
+            'musical_style': musical_style,
+            'detected_instruments': detected_instruments or []
         } 

@@ -13,14 +13,14 @@ class WhisperAudioProcessor(SimpleEnhancedAudioProcessor):
         
         # Replicate transcription services only
         self.transcription_services = {
-            'replicate_whisper_large': {
+            'replicate_whisper_medium': {
                 'url': "https://api.replicate.com/v1/predictions",
                 'model': "openai/whisper:91ee9c0c3df30478510ff8c8a3a545add1ad0259ad3a9f78fba57fbc05ee64f7",
                 'available': bool(self.replicate_api_key),
                 'priority': 1,
                 'type': 'replicate'
             },
-            'replicate_whisper_medium': {
+            'replicate_whisper_large': {
                 'url': "https://api.replicate.com/v1/predictions",
                 'model': "openai/whisper:91ee9c0c3df30478510ff8c8a3a545add1ad0259ad3a9f78fba57fbc05ee64f7",
                 'available': bool(self.replicate_api_key),

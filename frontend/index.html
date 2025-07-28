@@ -220,6 +220,23 @@
             word-break: break-word;
         }
 
+        .instruments-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .instrument-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-block;
+        }
+
         .prompt-section {
             background: #f8f9fa;
             border-radius: 15px;
@@ -366,6 +383,10 @@
                         <div class="analysis-label">Transcription</div>
                         <div class="analysis-value" id="transcriptionValue">-</div>
                     </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">🎵 Detected Instruments</div>
+                        <div class="analysis-value" id="instrumentsValue">-</div>
+                    </div>
                 </div>
             </div>
 
@@ -406,6 +427,7 @@
         const complexityValue = document.getElementById('complexityValue');
         const durationValue = document.getElementById('durationValue');
         const transcriptionValue = document.getElementById('transcriptionValue');
+        const instrumentsValue = document.getElementById('instrumentsValue');
 
         // Prompt elements
         const abstractPrompt = document.getElementById('abstractPrompt');
@@ -480,6 +502,12 @@
         }
 
         function displayResults(result) {
+            // Debug logging
+            console.log('Full result:', result);
+            console.log('Detected instruments:', result.detected_instruments);
+            console.log('Detected instruments type:', typeof result.detected_instruments);
+            console.log('Detected instruments length:', result.detected_instruments ? result.detected_instruments.length : 'undefined');
+            
             // Display images
             abstractImage.src = `/images/${result.abstract_image}`;
             representationalImage.src = `/images/${result.representational_image}`;
@@ -491,6 +519,16 @@
             complexityValue.textContent = result.features.complexity || 'Unknown';
             durationValue.textContent = result.features.duration ? `${result.features.duration.toFixed(1)}s` : 'Unknown';
             transcriptionValue.textContent = result.transcription ? result.transcription.substring(0, 100) + '...' : 'None';
+            
+            // Display detected instruments
+            if (result.detected_instruments && result.detected_instruments.length > 0) {
+                const instrumentTags = result.detected_instruments.map(inst => 
+                    `<span class="instrument-tag">${inst.name} (${(inst.confidence * 100).toFixed(0)}%)</span>`
+                );
+                instrumentsValue.innerHTML = `<div class="instruments-list">${instrumentTags.join('')}</div>`;
+            } else {
+                instrumentsValue.textContent = 'None detected';
+            }
 
             // Display prompts
             abstractPrompt.textContent = result.abstract_prompt || 'No prompt available';
