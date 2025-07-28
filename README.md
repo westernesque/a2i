@@ -1,6 +1,7 @@
 # Audio to Image Converter
 
 An experimental project that converts audio files into visual art using AI-powered transcription and image generation.
+<img width="50%" height="50%" alt="Screenshot 2025-07-27 205301" src="https://github.com/user-attachments/assets/a1152574-77b3-470e-82db-e1053f51e8ab" /><img width="50%" height="50%" alt="Screenshot 2025-07-27 205335" src="https://github.com/user-attachments/assets/e5f73e68-dcc4-438e-80c4-f7f546ab6e86" />
 
 ## Features
 
