@@ -2,13 +2,11 @@ import os
 import requests
 import json
 from typing import Dict, Any
-from simple_enhanced_processor import SimpleEnhancedAudioProcessor
 
-class WhisperAudioProcessor(SimpleEnhancedAudioProcessor):
-    """Enhanced audio processor with multiple transcription services"""
+class WhisperAudioProcessor:
+    """Audio processor focused on transcription services"""
 
     def __init__(self, replicate_api_key: str = None):
-        super().__init__()
         self.replicate_api_key = replicate_api_key or os.getenv('REPLICATE_API_KEY')
         
         # Replicate transcription services only
@@ -199,90 +197,5 @@ class WhisperAudioProcessor(SimpleEnhancedAudioProcessor):
             ]
             return responses[hash(file_name) % len(responses)]
 
-    def create_art_prompt(self, features: Dict[str, Any], transcription: str = "") -> str:
-        """Create an enhanced art prompt incorporating real transcription and instrument detection"""
-        # Add audio path to features for instrument detection
-        if 'audio_path' not in features:
-            features['audio_path'] = getattr(self, '_last_audio_path', '')
-        
-        # Use instrument-enhanced prompt from parent class
-        base_prompt = super().create_instrument_enhanced_prompt(features, transcription)
-
-        # If we have real transcription, enhance the prompt further
-        if transcription and transcription.strip():
-            # Analyze transcription for emotional content
-            emotional_keywords = self._extract_emotional_content(transcription)
-            
-            # Analyze transcription for visual elements
-            visual_elements = self._extract_visual_elements(transcription)
-
-            # Create enhanced prompt with additional analysis (transcription already included in base_prompt)
-            enhanced_parts = [
-                base_prompt
-            ]
-
-            # Add emotional analysis if found
-            if emotional_keywords:
-                enhanced_parts.append(f"Emotional themes: {', '.join(emotional_keywords)}")
-
-            # Add visual elements if found
-            if visual_elements:
-                enhanced_parts.append(f"Visual elements: {', '.join(visual_elements)}")
-
-            return " | ".join(enhanced_parts)
-
-        return base_prompt
-
-    def _extract_emotional_content(self, transcription: str) -> list:
-        """Extract emotional keywords from transcription"""
-        emotional_keywords = []
-        text_lower = transcription.lower()
-
-        # Enhanced emotional keyword categories
-        emotion_categories = {
-            'love': ['love', 'heart', 'romance', 'passion', 'affection', 'tender', 'intimate'],
-            'melancholy': ['sad', 'lonely', 'missing', 'lost', 'alone', 'heartbreak', 'nostalgic', 'reflective'],
-            'joy': ['happy', 'joy', 'celebrate', 'dance', 'smile', 'laugh', 'upbeat', 'bright'],
-            'energy': ['power', 'energy', 'strength', 'fire', 'burn', 'drive', 'dynamic', 'vibrant'],
-            'peace': ['calm', 'peace', 'quiet', 'gentle', 'soft', 'serene', 'tranquil', 'meditative'],
-            'nostalgia': ['remember', 'memory', 'past', 'childhood', 'yesterday', 'timeless', 'classic'],
-            'futuristic': ['future', 'digital', 'cyber', 'tech', 'artificial', 'robot', 'electronic', 'synthetic'],
-            'nature': ['earth', 'nature', 'forest', 'ocean', 'mountain', 'sky', 'organic', 'natural'],
-            'mystery': ['mysterious', 'enigmatic', 'dreamy', 'ethereal', 'otherworldly', 'magical'],
-            'sophistication': ['elegant', 'sophisticated', 'refined', 'complex', 'intricate', 'masterful']
-        }
-
-        # Check for emotional keywords
-        for emotion, keywords in emotion_categories.items():
-            for keyword in keywords:
-                if keyword in text_lower:
-                    emotional_keywords.append(emotion)
-                    break
-
-        return emotional_keywords[:4]  # Return top 4 emotions found
-
-    def _extract_visual_elements(self, transcription: str) -> list:
-        """Extract visual elements from transcription"""
-        visual_elements = []
-        text_lower = transcription.lower()
-
-        # Visual element categories
-        visual_categories = {
-            'landscape': ['landscape', 'mountain', 'ocean', 'forest', 'sky', 'horizon', 'valley'],
-            'urban': ['city', 'street', 'building', 'urban', 'metropolitan', 'concrete'],
-            'abstract': ['pattern', 'texture', 'flow', 'movement', 'shape', 'form'],
-            'light': ['light', 'bright', 'glow', 'shine', 'illumination', 'radiance'],
-            'color': ['color', 'hue', 'tone', 'palette', 'vibrant', 'muted'],
-            'space': ['space', 'cosmic', 'galaxy', 'stars', 'universe', 'infinite'],
-            'organic': ['organic', 'natural', 'flowing', 'curved', 'fluid', 'living'],
-            'geometric': ['geometric', 'angular', 'structured', 'precise', 'symmetrical']
-        }
-
-        # Check for visual elements
-        for category, keywords in visual_categories.items():
-            for keyword in keywords:
-                if keyword in text_lower:
-                    visual_elements.append(category)
-                    break
-
-        return visual_elements[:3]  # Return top 3 visual elements found 
+    # Note: Art prompt generation is now handled by ImprovedAudioAnalyzer
+    # This class focuses only on transcription services 

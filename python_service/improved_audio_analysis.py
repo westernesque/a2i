@@ -39,6 +39,59 @@ class ImprovedAudioAnalyzer:
             'low': ['gentle', 'soft', 'quiet', 'peaceful', 'serene', 'calm', 'tranquil']
         }
 
+        # Comprehensive instrument database with visual characteristics
+        self.instrument_database = {
+            'piano': {
+                'keywords': ['piano', 'keys', 'keyboard', 'grand', 'upright', 'melody', 'chords'],
+                'visual_elements': ['elegant curves', 'black and white keys', 'wooden frame', 'classical instrument'],
+                'colors': ['warm browns', 'golden tones', 'rich mahogany', 'ivory and ebony'],
+                'textures': ['smooth wood', 'polished surface', 'metallic strings', 'felt hammers'],
+                'mood_associations': ['elegant', 'sophisticated', 'emotional', 'intimate', 'classical']
+            },
+            'guitar': {
+                'keywords': ['guitar', 'acoustic', 'electric', 'strings', 'strum', 'pick', 'chord'],
+                'visual_elements': ['curved body', 'long neck', 'six strings', 'sound hole', 'pickguard'],
+                'colors': ['natural wood', 'sunburst', 'vibrant colors', 'metallic finishes'],
+                'textures': ['wood grain', 'smooth finish', 'metal strings', 'leather strap'],
+                'mood_associations': ['warm', 'intimate', 'passionate', 'folk', 'rock']
+            },
+            'violin': {
+                'keywords': ['violin', 'strings', 'bow', 'melody', 'classical'],
+                'visual_elements': ['curved body', 'elegant neck', 'four strings', 'f-holes', 'scroll'],
+                'colors': ['rich amber', 'deep reds', 'golden browns', 'warm honey'],
+                'textures': ['smooth varnish', 'wood grain', 'horsehair bow', 'ebony fingerboard'],
+                'mood_associations': ['elegant', 'emotional', 'romantic', 'classical', 'sophisticated']
+            },
+            'drums': {
+                'keywords': ['drums', 'percussion', 'beat', 'rhythm', 'kick', 'snare', 'hi-hat'],
+                'visual_elements': ['circular drums', 'metal cymbals', 'wooden shells', 'drumsticks'],
+                'colors': ['metallic silver', 'deep blacks', 'warm browns', 'brass tones'],
+                'textures': ['smooth metal', 'wood grain', 'leather heads', 'brushed steel'],
+                'mood_associations': ['rhythmic', 'powerful', 'energetic', 'dynamic', 'pulsing']
+            },
+            'voice': {
+                'keywords': ['voice', 'vocal', 'sing', 'song', 'lyrics', 'singer'],
+                'visual_elements': ['human figure', 'expressive face', 'microphone', 'stage presence'],
+                'colors': ['warm skin tones', 'expressive colors', 'stage lighting', 'vibrant hues'],
+                'textures': ['smooth skin', 'expressive features', 'dynamic movement', 'emotional expression'],
+                'mood_associations': ['emotional', 'personal', 'expressive', 'intimate', 'powerful']
+            },
+            'nature_sounds': {
+                'keywords': ['bird', 'nature', 'ambient', 'environmental', 'forest', 'ocean'],
+                'visual_elements': ['natural landscapes', 'organic forms', 'environmental elements', 'natural textures'],
+                'colors': ['earth tones', 'natural greens', 'sky blues', 'organic browns'],
+                'textures': ['organic textures', 'natural patterns', 'environmental elements', 'earthly materials'],
+                'mood_associations': ['peaceful', 'natural', 'organic', 'tranquil', 'environmental']
+            },
+            'synth': {
+                'keywords': ['synth', 'electronic', 'digital', 'synthesizer', 'electronic'],
+                'visual_elements': ['digital interfaces', 'electronic circuits', 'futuristic elements', 'technological forms'],
+                'colors': ['neon colors', 'electric blues', 'digital greens', 'futuristic purples'],
+                'textures': ['smooth plastic', 'metallic surfaces', 'digital displays', 'electronic components'],
+                'mood_associations': ['futuristic', 'electronic', 'digital', 'modern', 'technological']
+            }
+        }
+
     def analyze_audio_file(self, audio_path: str) -> Dict[str, Any]:
         """Analyze audio file and generate diverse, realistic features"""
         file_name = os.path.basename(audio_path)
@@ -92,88 +145,187 @@ class ImprovedAudioAnalyzer:
         return features
 
     def _extract_mood_from_filename(self, file_name: str, file_hash: str) -> str:
-        """Extract mood from filename using keyword analysis and hash-based variation"""
-        name_lower = file_name.lower()
-        
-        # Check for explicit mood keywords
-        for mood, keywords in self.mood_keywords.items():
-            if any(keyword in name_lower for keyword in [mood, mood.replace('ic', 'y')]):
-                return mood
-        
-        # Check for mood-related words
-        mood_indicators = {
-            'peaceful': ['peace', 'calm', 'serene', 'gentle', 'soft', 'quiet'],
-            'dramatic': ['drama', 'intense', 'powerful', 'epic', 'grand'],
-            'energetic': ['energy', 'power', 'vibrant', 'dynamic', 'electric'],
-            'joyful': ['joy', 'happy', 'bright', 'cheerful', 'upbeat'],
-            'melancholic': ['sad', 'melancholy', 'blue', 'nostalgic', 'reflective'],
-            'mysterious': ['mystery', 'enigmatic', 'dream', 'ethereal', 'atmospheric'],
-            'passionate': ['passion', 'love', 'heart', 'romance', 'intimate'],
-            'contemplative': ['think', 'reflect', 'meditate', 'contemplate']
+        """Extract mood from filename with more sophisticated analysis"""
+        # Priority 1: Explicit mood keywords in filename
+        mood_keywords = {
+            'peaceful': ['peaceful', 'calm', 'serene', 'gentle', 'soft', 'quiet'],
+            'energetic': ['energetic', 'upbeat', 'fast', 'dynamic', 'powerful', 'intense'],
+            'joyful': ['joyful', 'happy', 'bright', 'cheerful', 'uplifting', 'positive'],
+            'melancholic': ['melancholic', 'sad', 'melancholy', 'sorrowful', 'blue', 'depressed'],
+            'mysterious': ['mysterious', 'mystical', 'ethereal', 'atmospheric', 'ambient', 'dreamy'],
+            'dramatic': ['dramatic', 'epic', 'intense', 'powerful', 'emotional', 'passionate'],
+            'contemplative': ['contemplative', 'thoughtful', 'reflective', 'meditative', 'introspective']
         }
         
-        for mood, indicators in mood_indicators.items():
-            if any(indicator in name_lower for indicator in indicators):
+        file_lower = file_name.lower()
+        for mood, keywords in mood_keywords.items():
+            if any(keyword in file_lower for keyword in keywords):
                 return mood
         
-        # Use hash to generate consistent but varied mood
-        hash_int = int(file_hash[:8], 16) if len(file_hash) >= 8 else 0
-        mood_options = list(self.mood_keywords.keys())
-        return mood_options[hash_int % len(mood_options)]
+        # Priority 2: Mood-related words that suggest mood
+        mood_hints = {
+            'peaceful': ['piano', 'acoustic', 'nature', 'rain', 'ocean', 'wind'],
+            'energetic': ['rock', 'dance', 'electronic', 'drums', 'bass', 'guitar'],
+            'joyful': ['pop', 'summer', 'sunshine', 'party', 'celebration', 'love'],
+            'melancholic': ['winter', 'rain', 'night', 'lonely', 'heartbreak', 'missing'],
+            'mysterious': ['dark', 'night', 'moon', 'stars', 'space', 'unknown'],
+            'dramatic': ['orchestra', 'strings', 'brass', 'choir', 'epic', 'battle'],
+            'contemplative': ['solo', 'instrumental', 'classical', 'minimal', 'simple']
+        }
+        
+        for mood, hints in mood_hints.items():
+            if any(hint in file_lower for hint in hints):
+                return mood
+        
+        # Priority 3: Hash-based mood with more variation
+        if len(file_hash) >= 8:
+            hash_int = int(file_hash[:8], 16)
+            mood_index = hash_int % 7
+            
+            moods = ['peaceful', 'energetic', 'joyful', 'melancholic', 'mysterious', 'dramatic', 'contemplative']
+            return moods[mood_index]
+        
+        return 'balanced'
 
     def _extract_musical_style(self, file_name: str, file_hash: str) -> str:
-        """Extract musical style from filename"""
-        name_lower = file_name.lower()
-        
-        # Check for explicit style keywords
-        for style, keywords in self.style_keywords.items():
-            if any(keyword in name_lower for keyword in keywords):
-                return style
-        
-        # Use hash to generate consistent style
-        hash_int = int(file_hash[8:16], 16) if len(file_hash) >= 16 else 0
-        style_options = list(self.style_keywords.keys())
-        return style_options[hash_int % len(style_options)]
-
-    def _determine_energy_level(self, mood: str, file_name: str, file_hash: str) -> str:
-        """Determine energy level based on mood and filename"""
-        # Get base energy from mood
-        base_energy = self.mood_keywords.get(mood, {}).get('energy', 'medium')
-        
-        # Check for energy keywords in filename
-        name_lower = file_name.lower()
-        for energy, keywords in self.energy_keywords.items():
-            if any(keyword in name_lower for keyword in keywords):
-                return energy
-        
-        # Use hash for slight variation
-        hash_int = int(file_hash[16:24], 16) if len(file_hash) >= 24 else 0
-        if hash_int % 10 < 3:  # 30% chance to vary
-            energy_levels = ['low', 'medium', 'high']
-            current_index = energy_levels.index(base_energy)
-            return energy_levels[(current_index + 1) % len(energy_levels)]
-        
-        return base_energy
-
-    def _estimate_tempo(self, mood: str, energy_level: str, file_hash: str) -> int:
-        """Estimate tempo based on mood and energy"""
-        # Base tempo from mood
-        base_tempos = {
-            'peaceful': 60, 'calm': 70, 'dramatic': 100, 'energetic': 140,
-            'joyful': 120, 'melancholic': 65, 'mysterious': 75, 'passionate': 110, 'contemplative': 55
+        """Extract musical style from filename with more sophisticated analysis"""
+        # Priority 1: Explicit style keywords in filename
+        style_keywords = {
+            'jazz': ['jazz', 'swing', 'bebop', 'smooth', 'fusion'],
+            'rock': ['rock', 'metal', 'punk', 'grunge', 'alternative'],
+            'pop': ['pop', 'mainstream', 'radio', 'chart', 'hit'],
+            'electronic': ['electronic', 'edm', 'techno', 'house', 'trance', 'synth'],
+            'classical': ['classical', 'orchestra', 'symphony', 'concerto', 'sonata'],
+            'folk': ['folk', 'acoustic', 'traditional', 'country', 'bluegrass'],
+            'ambient': ['ambient', 'atmospheric', 'chill', 'lounge', 'downtempo'],
+            'hip_hop': ['hip', 'hop', 'rap', 'urban', 'r&b', 'soul']
         }
         
-        base_tempo = base_tempos.get(mood, 90)
+        file_lower = file_name.lower()
+        for style, keywords in style_keywords.items():
+            if any(keyword in file_lower for keyword in keywords):
+                return style
         
-        # Adjust for energy level
-        energy_adjustments = {'low': -20, 'medium': 0, 'high': 30}
-        adjusted_tempo = base_tempo + energy_adjustments.get(energy_level, 0)
+        # Priority 2: Instrument-based style hints
+        instrument_styles = {
+            'jazz': ['piano', 'sax', 'trumpet', 'bass', 'drums'],
+            'rock': ['guitar', 'electric', 'drums', 'bass', 'distortion'],
+            'classical': ['violin', 'cello', 'orchestra', 'strings', 'brass'],
+            'folk': ['acoustic', 'guitar', 'banjo', 'harmonica', 'fiddle'],
+            'electronic': ['synth', 'digital', 'electronic', 'computer', 'beats'],
+            'ambient': ['piano', 'strings', 'atmospheric', 'pad', 'drone']
+        }
         
-        # Add some variation based on hash
-        hash_int = int(file_hash[24:32], 16) if len(file_hash) >= 32 else 0
-        variation = (hash_int % 40) - 20  # ±20 BPM variation
+        for style, instruments in instrument_styles.items():
+            if any(instrument in file_lower for instrument in instruments):
+                return style
         
-        return max(40, min(200, adjusted_tempo + variation))
+        # Priority 3: Hash-based style with more variation
+        if len(file_hash) >= 16:
+            hash_int = int(file_hash[8:16], 16)
+            style_index = hash_int % 8
+            
+            styles = ['jazz', 'rock', 'pop', 'electronic', 'classical', 'folk', 'ambient', 'hip_hop']
+            return styles[style_index]
+        
+        return 'pop'
+
+    def _determine_energy_level(self, mood: str, file_name: str, file_hash: str) -> str:
+        """Determine energy level with more sophisticated analysis"""
+        file_lower = file_name.lower()
+        
+        # Priority 1: Explicit energy keywords in filename
+        energy_keywords = {
+            'high': ['high', 'energetic', 'powerful', 'intense', 'dynamic', 'fast', 'upbeat'],
+            'medium': ['medium', 'moderate', 'balanced', 'steady', 'smooth'],
+            'low': ['low', 'quiet', 'soft', 'gentle', 'calm', 'peaceful', 'slow']
+        }
+        
+        for level, keywords in energy_keywords.items():
+            if any(keyword in file_lower for keyword in keywords):
+                return level
+        
+        # Priority 2: Mood-based energy (with some variation)
+        mood_energy_map = {
+            'energetic': 'high',
+            'joyful': 'high',
+            'dramatic': 'high',
+            'passionate': 'high',
+            'peaceful': 'low',
+            'melancholic': 'low',
+            'mysterious': 'low',
+            'contemplative': 'low'
+        }
+        
+        if mood in mood_energy_map:
+            base_energy = mood_energy_map[mood]
+            
+            # Add some variation based on hash
+            if len(file_hash) >= 24:
+                hash_int = int(file_hash[16:24], 16)
+                variation = hash_int % 3
+                
+                # 70% chance of mood-based energy, 30% chance of variation
+                if variation < 2:  # 67% chance
+                    return base_energy
+                else:  # 33% chance of variation
+                    energy_levels = ['low', 'medium', 'high']
+                    current_index = energy_levels.index(base_energy)
+                    # Move one step up or down
+                    if variation == 2:
+                        return energy_levels[min(current_index + 1, 2)]
+                    else:
+                        return energy_levels[max(current_index - 1, 0)]
+        
+        # Priority 3: Hash-based energy with more variation
+        if len(file_hash) >= 24:
+            hash_int = int(file_hash[16:24], 16)
+            energy_index = hash_int % 3
+            
+            energy_levels = ['low', 'medium', 'high']
+            return energy_levels[energy_index]
+        
+        return 'medium'
+
+    def _estimate_tempo(self, mood: str, energy_level: str, file_hash: str) -> int:
+        """Estimate tempo with more sophisticated analysis"""
+        # Base tempo ranges by mood and energy
+        tempo_ranges = {
+            'energetic': {'low': (100, 130), 'medium': (130, 160), 'high': (160, 200)},
+            'joyful': {'low': (90, 120), 'medium': (120, 150), 'high': (150, 180)},
+            'dramatic': {'low': (60, 90), 'medium': (90, 120), 'high': (120, 160)},
+            'passionate': {'low': (70, 100), 'medium': (100, 130), 'high': (130, 170)},
+            'peaceful': {'low': (40, 70), 'medium': (70, 100), 'high': (100, 130)},
+            'melancholic': {'low': (50, 80), 'medium': (80, 110), 'high': (110, 140)},
+            'mysterious': {'low': (60, 90), 'medium': (90, 120), 'high': (120, 150)},
+            'contemplative': {'low': (40, 70), 'medium': (70, 100), 'high': (100, 130)}
+        }
+        
+        # Get base tempo range
+        if mood in tempo_ranges and energy_level in tempo_ranges[mood]:
+            min_tempo, max_tempo = tempo_ranges[mood][energy_level]
+        else:
+            # Default range
+            min_tempo, max_tempo = 80, 120
+        
+        # Add variation based on hash
+        if len(file_hash) >= 32:
+            hash_int = int(file_hash[24:32], 16)
+            
+            # Use hash to determine position within the range
+            position = (hash_int % 100) / 100.0  # 0.0 to 1.0
+            
+            # Calculate tempo with some randomness
+            tempo = min_tempo + (max_tempo - min_tempo) * position
+            
+            # Add some additional variation (±10 BPM)
+            variation = (hash_int % 20) - 10
+            tempo += variation
+            
+            return max(40, min(200, int(tempo)))
+        
+        # Fallback to middle of range
+        return int((min_tempo + max_tempo) / 2)
 
     def _determine_complexity(self, file_size: int, file_name: str, file_hash: str) -> str:
         """Determine complexity based on file characteristics"""
@@ -297,61 +449,8 @@ class ImprovedAudioAnalyzer:
         file_name = os.path.basename(audio_path).lower()
         transcription_lower = transcription.lower() if transcription else ""
         
-        # Comprehensive instrument database with visual characteristics
-        instrument_database = {
-            'piano': {
-                'keywords': ['piano', 'keys', 'keyboard', 'grand', 'upright', 'melody', 'chords'],
-                'visual_elements': ['elegant curves', 'black and white keys', 'wooden frame', 'classical instrument'],
-                'colors': ['warm browns', 'golden tones', 'rich mahogany', 'ivory and ebony'],
-                'textures': ['smooth wood', 'polished surface', 'metallic strings', 'felt hammers'],
-                'mood_associations': ['elegant', 'sophisticated', 'emotional', 'intimate', 'classical']
-            },
-            'guitar': {
-                'keywords': ['guitar', 'acoustic', 'electric', 'strings', 'strum', 'pick', 'chord'],
-                'visual_elements': ['curved body', 'long neck', 'six strings', 'sound hole', 'pickguard'],
-                'colors': ['natural wood', 'sunburst', 'vibrant colors', 'metallic finishes'],
-                'textures': ['wood grain', 'smooth finish', 'metal strings', 'leather strap'],
-                'mood_associations': ['warm', 'intimate', 'passionate', 'folk', 'rock']
-            },
-            'violin': {
-                'keywords': ['violin', 'strings', 'bow', 'melody', 'classical'],
-                'visual_elements': ['curved body', 'elegant neck', 'four strings', 'f-holes', 'scroll'],
-                'colors': ['rich amber', 'deep reds', 'golden browns', 'warm honey'],
-                'textures': ['smooth varnish', 'wood grain', 'horsehair bow', 'ebony fingerboard'],
-                'mood_associations': ['elegant', 'emotional', 'romantic', 'classical', 'sophisticated']
-            },
-            'drums': {
-                'keywords': ['drums', 'percussion', 'beat', 'rhythm', 'kick', 'snare', 'hi-hat'],
-                'visual_elements': ['circular drums', 'metal cymbals', 'wooden shells', 'drumsticks'],
-                'colors': ['metallic silver', 'deep blacks', 'warm browns', 'brass tones'],
-                'textures': ['smooth metal', 'wood grain', 'leather heads', 'brushed steel'],
-                'mood_associations': ['rhythmic', 'powerful', 'energetic', 'dynamic', 'pulsing']
-            },
-            'voice': {
-                'keywords': ['voice', 'vocal', 'sing', 'song', 'lyrics', 'singer'],
-                'visual_elements': ['human figure', 'expressive face', 'microphone', 'stage presence'],
-                'colors': ['warm skin tones', 'expressive colors', 'stage lighting', 'vibrant hues'],
-                'textures': ['smooth skin', 'expressive features', 'dynamic movement', 'emotional expression'],
-                'mood_associations': ['emotional', 'personal', 'expressive', 'intimate', 'powerful']
-            },
-            'nature_sounds': {
-                'keywords': ['bird', 'nature', 'ambient', 'environmental', 'forest', 'ocean'],
-                'visual_elements': ['natural landscapes', 'organic forms', 'environmental elements', 'natural textures'],
-                'colors': ['earth tones', 'natural greens', 'sky blues', 'organic browns'],
-                'textures': ['organic textures', 'natural patterns', 'environmental elements', 'earthly materials'],
-                'mood_associations': ['peaceful', 'natural', 'organic', 'tranquil', 'environmental']
-            },
-            'synth': {
-                'keywords': ['synth', 'electronic', 'digital', 'synthesizer', 'electronic'],
-                'visual_elements': ['digital interfaces', 'electronic circuits', 'futuristic elements', 'technological forms'],
-                'colors': ['neon colors', 'electric blues', 'digital greens', 'futuristic purples'],
-                'textures': ['smooth plastic', 'metallic surfaces', 'digital displays', 'electronic components'],
-                'mood_associations': ['futuristic', 'electronic', 'digital', 'modern', 'technological']
-            }
-        }
-        
         # Score each instrument based on filename and transcription
-        for instrument_name, instrument_data in instrument_database.items():
+        for instrument_name, instrument_data in self.instrument_database.items():
             score = 0
             detection_reasons = []
             
@@ -368,16 +467,14 @@ class ImprovedAudioAnalyzer:
                     detection_reasons.append(f"transcription mentions '{keyword}'")
             
             # Add to detected instruments if score is high enough
-            if score >= 3:
+            if score >= 2:  # Lowered from 3 to 2 for more sensitivity
                 detected_instruments.append({
                     'name': instrument_name,
                     'score': score,
                     'confidence': min(score / 10.0, 1.0),
-                    'reasons': detection_reasons,
-                    'visual_elements': instrument_data['visual_elements'],
-                    'colors': instrument_data['colors'],
-                    'textures': instrument_data['textures'],
-                    'mood_associations': instrument_data['mood_associations']
+                    'reasons': detection_reasons
+                    # Note: visual_elements, colors, textures, mood_associations are available
+                    # in instrument_data but not included in the response to maintain compatibility
                 })
         
         # If no instruments detected, make some intelligent assumptions
@@ -387,11 +484,7 @@ class ImprovedAudioAnalyzer:
                 'name': 'voice',
                 'score': 2,
                 'confidence': 0.3,
-                'reasons': ['assumed presence in vocal music'],
-                'visual_elements': instrument_database['voice']['visual_elements'],
-                'colors': instrument_database['voice']['colors'],
-                'textures': instrument_database['voice']['textures'],
-                'mood_associations': instrument_database['voice']['mood_associations']
+                'reasons': ['assumed presence in vocal music']
             })
             
             # Check for subtle hints in filename
@@ -400,12 +493,26 @@ class ImprovedAudioAnalyzer:
                     'name': 'piano',
                     'score': 2,
                     'confidence': 0.25,
-                    'reasons': ['melodic content suggested'],
-                    'visual_elements': instrument_database['piano']['visual_elements'],
-                    'colors': instrument_database['piano']['colors'],
-                    'textures': instrument_database['piano']['textures'],
-                    'mood_associations': instrument_database['piano']['mood_associations']
+                    'reasons': ['melodic content suggested']
                 })
+        
+        # Add common instruments with low confidence based on general music patterns
+        if len(detected_instruments) <= 1:  # If we only have voice or nothing
+            # Add common instruments with low confidence based on general music patterns
+            common_instruments = [
+                ('piano', 0.2, 'common melodic instrument'),
+                ('drums', 0.2, 'rhythmic foundation'),
+                ('guitar', 0.15, 'common accompaniment')
+            ]
+            
+            for inst_name, confidence, reason in common_instruments:
+                if not any(inst['name'] == inst_name for inst in detected_instruments):
+                    detected_instruments.append({
+                        'name': inst_name,
+                        'score': 2,
+                        'confidence': confidence,
+                        'reasons': [reason]
+                    })
         
         # Sort by confidence score
         detected_instruments.sort(key=lambda x: x['score'], reverse=True)
@@ -439,7 +546,9 @@ class ImprovedAudioAnalyzer:
         instrument_colors = []
         if detected_instruments:
             for instrument in detected_instruments[:2]:  # Top 2 instruments
-                instrument_colors.extend(instrument.get('colors', []))
+                inst_name = instrument['name']
+                if inst_name in self.instrument_database:
+                    instrument_colors.extend(self.instrument_database[inst_name]['colors'])
         
         # Combine all color sources
         all_colors = base_colors + style_specific + instrument_colors
