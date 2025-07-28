@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 from whisper_processor import WhisperAudioProcessor
 from replicate_image_generator import ReplicateImageGenerator
 
-def test_pipeline(audio_file_path):
-    """Test the complete audio-to-image pipeline"""
+def run_pipeline(audio_file_path):
+    """Run the complete audio-to-image pipeline"""
     
     # Load environment variables
     load_dotenv()
@@ -15,7 +15,7 @@ def test_pipeline(audio_file_path):
         print(f"❌ Audio file not found: {audio_file_path}")
         return False
     
-    print("🎵🎨 REPLICATE-ONLY PIPELINE TEST")
+    print("🎵🎨 AUDIO-TO-IMAGE PIPELINE")
     print("=" * 40)
     print(f"📁 Audio file: {audio_file_path}")
     print(f"📏 File size: {os.path.getsize(audio_file_path)} bytes")
@@ -78,7 +78,7 @@ def test_pipeline(audio_file_path):
         print(f"✅ Image saved as: {output_filename}")
         
         # Summary
-        print(f"\n🎉 REPLICATE PIPELINE SUCCESS!")
+        print(f"\n🎉 PIPELINE SUCCESS!")
         print("=" * 40)
         print(f"✅ Audio analyzed successfully")
         print(f"✅ Content transcribed: {len(transcription)} characters")
@@ -95,19 +95,18 @@ def test_pipeline(audio_file_path):
 if __name__ == "__main__":
     # Try to find the audio file
     possible_paths = [
-        "01 her.m4a",
-        "../01 her.m4a",
-        "uploads/01 her.m4a",
+        "uploads/06 Kiss 'till the Sunrise.m4a",
         "test_files/01 her.m4a"
     ]
     
     audio_found = False
     for path in possible_paths:
         if os.path.exists(path):
-            test_pipeline(path)
+            run_pipeline(path)
             audio_found = True
             break
     
     if not audio_found:
-        print("❌ Audio file '01 her.m4a' not found")
-        print("Please place the audio file in the python_service directory") 
+        print("❌ No audio files found")
+        print("Please place an audio file in the uploads/ directory")
+        print("Usage: python run_pipeline.py") 

@@ -5,3 +5,5 @@
 **/test_files/
 # python cache files
 **/__pycache__/
+# test uploads in the /uploads dir
+**/uploads/

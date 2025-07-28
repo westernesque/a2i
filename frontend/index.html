@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio to Image - Two-Stage Pipeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: rgba(118, 75, 162, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: rgba(118, 75, 162, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #666;
+            font-size: 1em;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .progress-container {
+            display: none;
+            margin: 30px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .results-container {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .results-subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .image-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .image-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .generated-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-loading {
+            width: 300px;
+            height: 300px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .analysis-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .analysis-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .analysis-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .analysis-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .analysis-value {
+            color: #666;
+            word-break: break-word;
+        }
+
+        .prompt-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .prompt-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .prompt-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .prompt-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .prompt-text {
+            color: #666;
+            font-family: monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .images-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .prompt-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Audio to Image</h1>
+        <p class="subtitle">Two-Stage Pipeline: Colorful Abstract → Representational Art</p>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">🎵</div>
+            <div class="upload-text">Drop your audio file here or click to browse</div>
+            <div class="upload-hint">Supports MP3, M4A, WAV, FLAC (max 50MB)</div>
+            <input type="file" id="fileInput" accept="audio/*">
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Processing audio...</div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="results-header">
+                <div class="results-title">🎨 Generated Artwork</div>
+                <div class="results-subtitle">Two-stage pipeline results</div>
+            </div>
+
+            <div class="images-grid">
+                <div class="image-card">
+                    <div class="image-title">🎨 Stage 1: Colorful Abstract</div>
+                    <div class="image-container">
+                        <img id="abstractImage" class="generated-image" alt="Abstract artwork">
+                    </div>
+                </div>
+                <div class="image-card">
+                    <div class="image-title">🖼️ Stage 2: Representational</div>
+                    <div class="image-container">
+                        <img id="representationalImage" class="generated-image" alt="Representational artwork">
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <div class="analysis-title">📊 Audio Analysis</div>
+                <div class="analysis-grid">
+                    <div class="analysis-item">
+                        <div class="analysis-label">Mood</div>
+                        <div class="analysis-value" id="moodValue">-</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Energy Level</div>
+                        <div class="analysis-value" id="energyValue">-</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Musical Style</div>
+                        <div class="analysis-value" id="styleValue">-</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Complexity</div>
+                        <div class="analysis-value" id="complexityValue">-</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Duration</div>
+                        <div class="analysis-value" id="durationValue">-</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Transcription</div>
+                        <div class="analysis-value" id="transcriptionValue">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-title">🎯 Generated Prompts</div>
+                <div class="prompt-grid">
+                    <div class="prompt-item">
+                        <div class="prompt-label">Abstract Prompt</div>
+                        <div class="prompt-text" id="abstractPrompt">-</div>
+                    </div>
+                    <div class="prompt-item">
+                        <div class="prompt-label">Representational Prompt</div>
+                        <div class="prompt-text" id="representationalPrompt">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Image elements
+        const abstractImage = document.getElementById('abstractImage');
+        const representationalImage = document.getElementById('representationalImage');
+
+        // Analysis elements
+        const moodValue = document.getElementById('moodValue');
+        const energyValue = document.getElementById('energyValue');
+        const styleValue = document.getElementById('styleValue');
+        const complexityValue = document.getElementById('complexityValue');
+        const durationValue = document.getElementById('durationValue');
+        const transcriptionValue = document.getElementById('transcriptionValue');
+
+        // Prompt elements
+        const abstractPrompt = document.getElementById('abstractPrompt');
+        const representationalPrompt = document.getElementById('representationalPrompt');
+
+        // Upload area event listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('audio/')) {
+                showError('Please select an audio file.');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                showError('File size must be less than 50MB.');
+                return;
+            }
+
+            uploadFile(file);
+        }
+
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('audio', file);
+
+            showProgress();
+            hideMessages();
+            hideResults();
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('Two-stage pipeline completed successfully!');
+                    displayResults(result);
+                } else {
+                    showError(result.error || 'Processing failed');
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                showError('Network error. Please try again.');
+            } finally {
+                hideProgress();
+            }
+        }
+
+        function displayResults(result) {
+            // Display images
+            abstractImage.src = `/images/${result.abstract_image}`;
+            representationalImage.src = `/images/${result.representational_image}`;
+
+            // Display analysis
+            moodValue.textContent = result.features.mood || 'Unknown';
+            energyValue.textContent = result.features.energy_level || 'Unknown';
+            styleValue.textContent = result.features.musical_style || 'Unknown';
+            complexityValue.textContent = result.features.complexity || 'Unknown';
+            durationValue.textContent = result.features.duration ? `${result.features.duration.toFixed(1)}s` : 'Unknown';
+            transcriptionValue.textContent = result.transcription ? result.transcription.substring(0, 100) + '...' : 'None';
+
+            // Display prompts
+            abstractPrompt.textContent = result.abstract_prompt || 'No prompt available';
+            representationalPrompt.textContent = result.representational_prompt || 'No prompt available';
+
+            showResults();
+        }
+
+        function showProgress() {
+            progressContainer.style.display = 'block';
+            progressFill.style.width = '0%';
+            progressText.textContent = 'Processing audio...';
+            
+            // Simulate progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressFill.style.width = progress + '%';
+                
+                if (progress < 30) {
+                    progressText.textContent = 'Analyzing audio features...';
+                } else if (progress < 60) {
+                    progressText.textContent = 'Generating abstract artwork...';
+                } else {
+                    progressText.textContent = 'Creating representational art...';
+                }
+            }, 500);
+
+            // Store interval for cleanup
+            window.progressInterval = interval;
+        }
+
+        function hideProgress() {
+            progressContainer.style.display = 'none';
+            if (window.progressInterval) {
+                clearInterval(window.progressInterval);
+            }
+        }
+
+        function showResults() {
+            resultsContainer.style.display = 'block';
+        }
+
+        function hideResults() {
+            resultsContainer.style.display = 'none';
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

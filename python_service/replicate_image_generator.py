@@ -42,13 +42,14 @@ class ReplicateImageGenerator:
             payload = {
                 "version": model,
                 "input": {
-                    "prompt": enhanced_prompt,
-                    "width": 1024,
-                    "height": 1024,
+                    "prompt": enhanced_prompt, # Using enhanced prompt
+                    "width": 1024, # Increased resolution
+                    "height": 1024, # Increased resolution
                     "num_outputs": 1,
-                    "guidance_scale": 7.5,
-                    "num_inference_steps": 50,
-                    "scheduler": "K_EULER"
+                    "guidance_scale": 7.5, # Added
+                    "num_inference_steps": 50, # Added
+                    "scheduler": "K_EULER", # Added
+                    "negative_prompt": "black and white, monochrome, grayscale, colorless, dull, muted, dark, gloomy, boring, plain, simple, minimal, no color, desaturated, low contrast, sketch, drawing, pencil, charcoal, ugly, distorted, blurry, low quality, pixelated, abstract art, abstract shapes, geometric patterns, abstract composition, abstract design, abstract forms, abstract elements, abstract style, abstract painting, abstract drawing, abstract illustration, abstract graphics, abstract visual, abstract artwork, abstract imagery, abstract representation, abstract concept, abstract expression, abstract movement, abstract lines, abstract curves, abstract textures, abstract patterns, abstract motifs, abstract symbols, abstract elements, abstract shapes, abstract forms, abstract composition, abstract design, abstract style, abstract painting, abstract drawing, abstract illustration, abstract graphics, abstract visual, abstract artwork, abstract imagery, abstract representation, abstract concept, abstract expression, abstract movement, abstract lines, abstract curves, abstract textures, abstract patterns, abstract motifs, abstract symbols"
                 }
             }
             
@@ -114,48 +115,54 @@ class ReplicateImageGenerator:
             return self._create_placeholder_image(prompt)
 
     def _enhance_prompt_for_color(self, prompt: str) -> str:
-        """Enhance prompt to encourage more colorful, vibrant images"""
-        # Add color-enhancing keywords
-        color_enhancers = [
-            "vibrant colors",
-            "rich color palette", 
-            "warm tones",
-            "bright and colorful",
-            "saturated colors",
-            "colorful composition",
-            "vivid imagery",
-            "luminous colors"
-        ]
-        
-        # Add artistic style enhancers
-        style_enhancers = [
-            "artistic",
-            "creative",
-            "expressive",
-            "dynamic",
-            "visually striking"
-        ]
-        
-        # Combine original prompt with enhancements
-        enhanced_parts = [prompt]
-        
-        # Add 2-3 random color enhancers
-        import random
-        selected_colors = random.sample(color_enhancers, 2)
-        enhanced_parts.extend(selected_colors)
-        
-        # Add 1-2 style enhancers
-        selected_styles = random.sample(style_enhancers, 1)
-        enhanced_parts.extend(selected_styles)
-        
-        # Add technical quality enhancers
-        enhanced_parts.extend([
-            "high quality",
-            "detailed",
-            "professional digital art"
-        ])
-        
-        return ", ".join(enhanced_parts)
+        """Enhance prompt to encourage more colorful, vibrant images with dynamic palette integration"""
+        # Check if the prompt already contains color palette information
+        if 'color palette:' in prompt.lower() or 'colorful artwork' in prompt.lower():
+            # If dynamic colors are already specified, enhance with strong color emphasis
+            style_enhancers = [
+                "artistic", "creative", "expressive", "dynamic", "visually striking",
+                "high quality", "detailed", "professional digital art", "vibrant composition"
+            ]
+            color_enhancers = [
+                "SATURATED COLORS", "RICH COLOR PALETTE", "VIBRANT HUES", "BOLD COLORS",
+                "COLORFUL COMPOSITION", "LIVELY COLORS", "BRIGHT AND VIVID"
+            ]
+            
+            enhanced_parts = [prompt]
+            import random
+            selected_styles = random.sample(style_enhancers, 2)
+            selected_colors = random.sample(color_enhancers, 2)
+            enhanced_parts.extend(selected_colors)
+            enhanced_parts.extend(selected_styles)
+            enhanced_parts.extend([
+                "NO MONOCHROME", "NO BLACK AND WHITE", "FULL COLOR ARTWORK",
+                "MUST BE COLORFUL", "RICH SATURATED COLORS",
+                "REPRESENTATIONAL ART", "CONCRETE SCENES", "REAL OBJECTS",
+                "NO ABSTRACT ART", "AVOID ABSTRACT SHAPES"
+            ])
+            return ", ".join(enhanced_parts)
+        else:
+            # Fallback to general color enhancement if no dynamic palette
+            color_enhancers = [
+                "VIBRANT COLORS", "RICH COLOR PALETTE", "WARM TONES", "BRIGHT AND COLORFUL",
+                "SATURATED COLORS", "COLORFUL COMPOSITION", "VIVID IMAGERY", "LUMINOUS COLORS"
+            ]
+            style_enhancers = [
+                "artistic", "creative", "expressive", "dynamic", "visually striking"
+            ]
+            enhanced_parts = [prompt]
+            import random
+            selected_colors = random.sample(color_enhancers, 3)
+            enhanced_parts.extend(selected_colors)
+            selected_styles = random.sample(style_enhancers, 2)
+            enhanced_parts.extend(selected_styles)
+            enhanced_parts.extend([
+                "high quality", "detailed", "professional digital art",
+                "NO MONOCHROME", "FULL COLOR", "RICH SATURATED COLORS",
+                "REPRESENTATIONAL ART", "CONCRETE SCENES", "REAL OBJECTS",
+                "NO ABSTRACT ART", "AVOID ABSTRACT SHAPES"
+            ])
+            return ", ".join(enhanced_parts)
 
     def _create_placeholder_image(self, prompt: str) -> Image.Image:
         """Create a placeholder image when API is not available"""

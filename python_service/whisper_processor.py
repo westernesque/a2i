@@ -216,10 +216,9 @@ class WhisperAudioProcessor(SimpleEnhancedAudioProcessor):
             # Analyze transcription for visual elements
             visual_elements = self._extract_visual_elements(transcription)
 
-            # Create enhanced prompt with transcription
+            # Create enhanced prompt with additional analysis (transcription already included in base_prompt)
             enhanced_parts = [
-                base_prompt,
-                f"Audio content: '{transcription.strip()}'"
+                base_prompt
             ]
 
             # Add emotional analysis if found

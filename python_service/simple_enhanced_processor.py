@@ -102,60 +102,97 @@ class SimpleEnhancedAudioProcessor:
                 'mood_associations': ['warm', 'intimate', 'passionate', 'folk', 'rock']
             },
             'violin': {
-                'keywords': ['violin', 'strings', 'bow', 'fiddle', 'orchestra', 'classical'],
-                'visual_elements': ['curved body', 'scroll', 'f-holes', 'bridge', 'bow'],
-                'colors': ['rich amber', 'golden brown', 'dark wood', 'metallic strings'],
-                'textures': ['smooth varnish', 'wood grain', 'horsehair bow', 'metal strings'],
-                'mood_associations': ['elegant', 'emotional', 'sophisticated', 'melancholic', 'romantic']
+                'keywords': ['violin', 'strings', 'bow', 'melody', 'classical'],
+                'visual_elements': ['curved body', 'elegant neck', 'four strings', 'f-holes', 'scroll'],
+                'colors': ['rich amber', 'deep reds', 'golden browns', 'warm honey'],
+                'textures': ['smooth varnish', 'wood grain', 'horsehair bow', 'ebony fingerboard'],
+                'mood_associations': ['elegant', 'emotional', 'romantic', 'classical', 'sophisticated']
             },
             'drums': {
-                'keywords': ['drums', 'beat', 'rhythm', 'percussion', 'kick', 'snare', 'hi-hat'],
-                'visual_elements': ['circular drums', 'cymbals', 'sticks', 'drum kit', 'rhythm'],
-                'colors': ['metallic silver', 'black', 'chrome', 'vibrant wraps'],
-                'textures': ['smooth metal', 'taut skin', 'wooden shells', 'metallic cymbals'],
-                'mood_associations': ['energetic', 'powerful', 'rhythmic', 'driving', 'dynamic']
+                'keywords': ['drums', 'percussion', 'beat', 'rhythm', 'kick', 'snare'],
+                'visual_elements': ['circular drums', 'metal cymbals', 'wooden shells', 'drumsticks'],
+                'colors': ['metallic silvers', 'deep blacks', 'warm browns', 'brass tones'],
+                'textures': ['smooth metal', 'wood grain', 'textured heads', 'shiny cymbals'],
+                'mood_associations': ['rhythmic', 'powerful', 'energetic', 'driving', 'pulsing']
             },
             'saxophone': {
-                'keywords': ['saxophone', 'sax', 'jazz', 'brass', 'smooth', 'melody'],
+                'keywords': ['saxophone', 'sax', 'jazz', 'smooth', 'melody'],
                 'visual_elements': ['curved brass', 'keys', 'bell', 'neck', 'mouthpiece'],
-                'colors': ['brass gold', 'copper tones', 'metallic shine', 'warm brass'],
-                'textures': ['smooth brass', 'metallic finish', 'engraved details', 'polished surface'],
-                'mood_associations': ['smooth', 'jazz', 'sophisticated', 'romantic', 'soulful']
+                'colors': ['brass gold', 'copper tones', 'warm yellows', 'rich browns'],
+                'textures': ['polished brass', 'smooth curves', 'metallic shine', 'warm patina'],
+                'mood_associations': ['smooth', 'jazz', 'sophisticated', 'warm', 'melodic']
             },
             'flute': {
-                'keywords': ['flute', 'woodwind', 'melody', 'gentle', 'air', 'breath'],
-                'visual_elements': ['long tube', 'keys', 'mouthpiece', 'silver finish'],
-                'colors': ['silver', 'metallic', 'shiny', 'bright'],
-                'textures': ['smooth metal', 'polished surface', 'delicate keys', 'metallic shine'],
-                'mood_associations': ['gentle', 'ethereal', 'peaceful', 'delicate', 'airy']
+                'keywords': ['flute', 'woodwind', 'melody', 'gentle', 'air'],
+                'visual_elements': ['long silver tube', 'keys', 'head joint', 'foot joint'],
+                'colors': ['silver metallic', 'cool blues', 'soft whites', 'gentle grays'],
+                'textures': ['smooth silver', 'precise keys', 'shiny surface', 'elegant curves'],
+                'mood_associations': ['gentle', 'ethereal', 'peaceful', 'floating', 'delicate']
             },
             'synth': {
-                'keywords': ['synth', 'electronic', 'digital', 'synthesizer', 'keys', 'electronic'],
-                'visual_elements': ['keyboard', 'knobs', 'screens', 'lights', 'modern'],
-                'colors': ['neon colors', 'black', 'blue', 'purple', 'futuristic'],
-                'textures': ['smooth plastic', 'metallic', 'glowing', 'digital'],
-                'mood_associations': ['futuristic', 'electronic', 'modern', 'synthetic', 'digital']
+                'keywords': ['synth', 'electronic', 'digital', 'keys', 'electronic'],
+                'visual_elements': ['digital interface', 'LED lights', 'knobs', 'screens'],
+                'colors': ['neon colors', 'electric blues', 'vibrant purples', 'bright greens'],
+                'textures': ['smooth plastic', 'glowing lights', 'digital displays', 'modern surfaces'],
+                'mood_associations': ['futuristic', 'electronic', 'modern', 'digital', 'synthetic']
             },
             'bass': {
-                'keywords': ['bass', 'low', 'deep', 'groove', 'rhythm', 'electric bass'],
-                'visual_elements': ['long neck', 'thick strings', 'body', 'pickups'],
-                'colors': ['dark wood', 'black', 'natural tones', 'metallic'],
-                'textures': ['smooth wood', 'metal strings', 'polished finish', 'metallic hardware'],
-                'mood_associations': ['groovy', 'deep', 'rhythmic', 'smooth', 'powerful']
+                'keywords': ['bass', 'low', 'deep', 'groove', 'rhythm'],
+                'visual_elements': ['long neck', 'thick strings', 'large body', 'pickups'],
+                'colors': ['deep blacks', 'rich browns', 'dark reds', 'warm earth tones'],
+                'textures': ['smooth wood', 'metal strings', 'warm finish', 'solid body'],
+                'mood_associations': ['deep', 'groovy', 'rhythmic', 'warm', 'foundational']
             },
             'voice': {
-                'keywords': ['voice', 'sing', 'vocal', 'lyrics', 'melody', 'human'],
-                'visual_elements': ['human figure', 'mouth', 'expression', 'emotion'],
-                'colors': ['warm skin tones', 'natural colors', 'expressive'],
+                'keywords': ['voice', 'vocal', 'singing', 'lyrics', 'human'],
+                'visual_elements': ['human form', 'expressive face', 'gestures', 'emotion'],
+                'colors': ['warm skin tones', 'natural colors', 'expressive hues', 'human warmth'],
                 'textures': ['organic', 'natural', 'expressive', 'human'],
-                'mood_associations': ['personal', 'emotional', 'human', 'intimate', 'expressive']
+                'mood_associations': ['human', 'emotional', 'expressive', 'personal', 'intimate']
             },
             'nature_sounds': {
-                'keywords': ['bird', 'nature', 'ambient', 'environmental', 'organic', 'natural'],
-                'visual_elements': ['birds', 'trees', 'sky', 'nature', 'organic forms'],
-                'colors': ['natural greens', 'sky blues', 'earth tones', 'organic colors'],
+                'keywords': ['nature', 'ambient', 'environmental', 'organic', 'natural'],
+                'visual_elements': ['natural landscapes', 'organic forms', 'environmental textures'],
+                'colors': ['earth tones', 'natural greens', 'sky blues', 'organic browns'],
                 'textures': ['organic', 'natural', 'textured', 'environmental'],
-                'mood_associations': ['peaceful', 'natural', 'organic', 'calm', 'serene']
+                'mood_associations': ['natural', 'peaceful', 'organic', 'environmental', 'calm']
+            }
+        }
+
+        # Dynamic color palette system based on musical features
+        self.color_palettes = {
+            'mood_based': {
+                'joyful': ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FF69B4'],
+                'melancholy': ['#6B5B95', '#8B4513', '#2F4F4F', '#708090', '#4682B4', '#483D8B'],
+                'passionate': ['#DC143C', '#8B0000', '#FF4500', '#FF6347', '#CD5C5C', '#B22222'],
+                'peaceful': ['#98FB98', '#87CEEB', '#DDA0DD', '#F0E68C', '#E6E6FA', '#B0E0E6'],
+                'mysterious': ['#483D8B', '#4B0082', '#2E8B57', '#191970', '#8A2BE2', '#4169E1'],
+                'energetic': ['#FF4500', '#FFD700', '#00FF00', '#FF69B4', '#00CED1', '#FF1493'],
+                'calm': ['#98FB98', '#87CEEB', '#DDA0DD', '#F0E68C', '#E6E6FA', '#B0E0E6'],
+                'dramatic': ['#DC143C', '#8B0000', '#FF4500', '#FF6347', '#CD5C5C', '#B22222'],
+                'contemplative': ['#6B5B95', '#8B4513', '#2F4F4F', '#708090', '#4682B4', '#483D8B']
+            },
+            'energy_based': {
+                'high': ['#FF0000', '#FF4500', '#FFD700', '#00FF00', '#FF69B4', '#00CED1'],
+                'medium': ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#FFB6C1'],
+                'low': ['#6B5B95', '#8B4513', '#2F4F4F', '#708090', '#4682B4', '#483D8B']
+            },
+            'tempo_based': {
+                'fast': ['#FF0000', '#FF4500', '#FFD700', '#00FF00', '#FF69B4', '#00CED1'],
+                'medium': ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#FFB6C1'],
+                'slow': ['#6B5B95', '#8B4513', '#2F4F4F', '#708090', '#4682B4', '#483D8B']
+            },
+            'brightness_based': {
+                'bright': ['#FFFFFF', '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'],
+                'warm': ['#FFE4B5', '#FFD700', '#FF6B6B', '#8B4513', '#CD853F', '#D2691E'],
+                'dark': ['#000000', '#2F4F4F', '#483D8B', '#8B0000', '#191970', '#4169E1'],
+                'balanced': ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#FFB6C1']
+            },
+            'seasonal': {
+                'spring': ['#98FB98', '#87CEEB', '#DDA0DD', '#F0E68C', '#E6E6FA', '#B0E0E6'],
+                'summer': ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FF69B4'],
+                'autumn': ['#FF8C00', '#8B4513', '#CD853F', '#D2691E', '#B8860B', '#DAA520'],
+                'winter': ['#FFFFFF', '#87CEEB', '#708090', '#4682B4', '#191970', '#4169E1']
             }
         }
     
@@ -697,29 +734,61 @@ class SimpleEnhancedAudioProcessor:
         brightness = features.get('brightness', 'balanced')
         texture = features.get('texture', 'balanced')
         
-        # Multi-factor mood analysis
+        # Multi-factor mood analysis with improved logic
         mood_score = {
             'energetic': 0, 'calm': 0, 'dramatic': 0, 'melancholic': 0,
-            'joyful': 0, 'mysterious': 0, 'passionate': 0, 'contemplative': 0
+            'joyful': 0, 'mysterious': 0, 'passionate': 0, 'contemplative': 0, 'peaceful': 0
         }
         
-        # Energy-based scoring
+        # Energy-based scoring (more nuanced)
         if energy_variance > 50000 and estimated_tempo > 140:
+            mood_score['energetic'] += 4
+        elif energy_variance < 15000 and estimated_tempo < 80:
+            mood_score['calm'] += 4
+            mood_score['peaceful'] += 3
+        elif energy_variance < 25000 and estimated_tempo < 100:
+            mood_score['peaceful'] += 4
+            mood_score['calm'] += 2
+        
+        # Tempo-based scoring
+        if estimated_tempo > 150:
             mood_score['energetic'] += 3
-        if energy_variance < 15000 and estimated_tempo < 80:
-            mood_score['calm'] += 3
-        if dynamic_range > 25 and energy_variance > 40000:
-            mood_score['dramatic'] += 2
-        if brightness == 'dark' and texture == 'smooth':
-            mood_score['melancholic'] += 2
-        if brightness == 'bright' and estimated_tempo > 120:
-            mood_score['joyful'] += 2
-        if texture == 'layered' and brightness == 'dark':
-            mood_score['mysterious'] += 2
-        if dynamic_range > 20 and texture == 'gritty':
-            mood_score['passionate'] += 2
-        if texture == 'smooth' and estimated_tempo < 90:
+        elif estimated_tempo < 70:
+            mood_score['peaceful'] += 3
             mood_score['contemplative'] += 2
+        elif estimated_tempo < 90:
+            mood_score['calm'] += 2
+        
+        # Brightness-based scoring
+        if brightness == 'bright' and estimated_tempo > 120:
+            mood_score['joyful'] += 3
+        elif brightness == 'dark' and texture == 'smooth':
+            mood_score['melancholic'] += 3
+        elif brightness == 'warm' and estimated_tempo < 100:
+            mood_score['peaceful'] += 3
+            mood_score['calm'] += 2
+        
+        # Dynamic range scoring
+        if dynamic_range > 25 and energy_variance > 40000:
+            mood_score['dramatic'] += 3
+        elif dynamic_range < 15 and energy_variance < 20000:
+            mood_score['peaceful'] += 2
+            mood_score['calm'] += 2
+        
+        # Texture-based scoring
+        if texture == 'layered' and brightness == 'dark':
+            mood_score['mysterious'] += 3
+        elif texture == 'smooth' and estimated_tempo < 90:
+            mood_score['contemplative'] += 3
+            mood_score['peaceful'] += 2
+        elif texture == 'gritty' and dynamic_range > 20:
+            mood_score['passionate'] += 3
+        
+        # Special case for very peaceful music
+        if (energy_variance < 15000 and estimated_tempo < 80 and 
+            brightness in ['warm', 'balanced'] and texture == 'smooth'):
+            mood_score['peaceful'] += 5
+            mood_score['calm'] += 3
         
         # Return the mood with highest score
         return max(mood_score, key=mood_score.get)
@@ -908,33 +977,156 @@ class SimpleEnhancedAudioProcessor:
             prompt_parts.append("atmospheric and ethereal")
         elif musical_style == 'jazz fusion':
             prompt_parts.append("sophisticated and complex")
-        elif musical_style == 'rock alternative':
-            prompt_parts.append("raw and powerful")
-        elif musical_style == 'classical orchestral':
-            prompt_parts.append("timeless and majestic")
+        elif musical_style == 'rock':
+            prompt_parts.append("powerful and energetic")
+        elif musical_style == 'classical':
+            prompt_parts.append("elegant and refined")
+        elif musical_style == 'pop':
+            prompt_parts.append("bright and accessible")
+        elif musical_style == 'experimental':
+            prompt_parts.append("innovative and creative")
+        
+        # Add specific scene suggestions based on mood and energy
+        if mood == 'peaceful' and energy == 'low':
+            prompt_parts.append("peaceful landscape or serene environment")
+        elif mood == 'energetic' and energy == 'high':
+            prompt_parts.append("dynamic scene with movement and energy")
+        elif mood == 'mysterious':
+            prompt_parts.append("mysterious or atmospheric environment")
+        elif mood == 'joyful':
+            prompt_parts.append("bright and cheerful scene")
+        elif mood == 'melancholy':
+            prompt_parts.append("contemplative or reflective scene")
+        elif mood == 'passionate':
+            prompt_parts.append("intense and dramatic scene")
+        
+        # Add instrument-specific scene suggestions (only if detected_instruments is provided)
+        if detected_instruments:
+            for instrument in detected_instruments[:2]:  # Top 2 instruments
+                instrument_name = instrument['name']
+                if instrument_name == 'piano':
+                    prompt_parts.append("elegant piano or musical setting")
+                elif instrument_name == 'guitar':
+                    prompt_parts.append("acoustic or electric guitar scene")
+                elif instrument_name == 'drums':
+                    prompt_parts.append("rhythmic drum or percussion scene")
+                elif instrument_name == 'voice':
+                    prompt_parts.append("vocal or singing scene")
+                elif instrument_name == 'nature_sounds':
+                    prompt_parts.append("natural outdoor environment")
+                elif instrument_name == 'synth':
+                    prompt_parts.append("electronic or digital music scene")
         
         # Add transcription if available
         if transcription and transcription.strip():
             prompt_parts.append(f"Audio content: '{transcription.strip()}'")
-        
-        # Add artistic direction
-        prompt_parts.append("highly detailed, artistic composition")
-        prompt_parts.append("professional digital art style")
         
         return " | ".join(prompt_parts)
     
     def _get_default_features(self) -> Dict[str, Any]:
         """Return default features if analysis fails"""
         return {
-            'duration': 60.0,
-            'mood': 'moderate',
+            'duration': 180.0,
+            'tempo': 120,
             'energy_level': 'medium',
             'complexity': 'moderate',
-            'musical_style': 'experimental',
+            'musical_style': 'pop',
             'emotional_tone': 'balanced',
-            'artistic_style': 'contemporary artistic',
+            'artistic_style': 'contemporary',
             'detected_instruments': []
         }
+
+    def generate_dynamic_color_palette(self, features: Dict[str, Any], detected_instruments: List[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Generate a dynamic color palette based on musical features"""
+        palette = {
+            'primary_colors': [],
+            'secondary_colors': [],
+            'accent_colors': [],
+            'mood_colors': [],
+            'instrument_colors': [],
+            'description': ''
+        }
+        
+        # Get mood-based colors
+        mood = features.get('mood', 'balanced')
+        if mood in self.color_palettes['mood_based']:
+            mood_colors = self.color_palettes['mood_based'][mood]
+            # Add some randomization to mood colors
+            import random
+            if len(mood_colors) > 4:
+                mood_colors = random.sample(mood_colors, 4)
+            palette['mood_colors'] = mood_colors
+        
+        # Get energy-based colors
+        energy = features.get('energy_level', 'medium')
+        if energy in self.color_palettes['energy_based']:
+            energy_colors = self.color_palettes['energy_based'][energy]
+            # Add some randomization to energy colors
+            import random
+            if len(energy_colors) > 3:
+                energy_colors = random.sample(energy_colors, 3)
+            palette['primary_colors'] = energy_colors
+        
+        # Get tempo-based colors
+        tempo = features.get('estimated_tempo', 120)  # Fixed: was 'tempo', should be 'estimated_tempo'
+        if tempo > 140:
+            tempo_category = 'fast'
+        elif tempo < 80:
+            tempo_category = 'slow'
+        else:
+            tempo_category = 'medium'
+        
+        if tempo_category in self.color_palettes['tempo_based']:
+            palette['secondary_colors'] = self.color_palettes['tempo_based'][tempo_category]
+        
+        # Get brightness-based colors
+        brightness = features.get('brightness', 'balanced')
+        if brightness in self.color_palettes['brightness_based']:
+            palette['accent_colors'] = self.color_palettes['brightness_based'][brightness]
+        
+        # Get instrument-specific colors
+        if detected_instruments:
+            for instrument in detected_instruments[:3]:  # Top 3 instruments
+                instrument_name = instrument['name']
+                if instrument_name in self.instrument_database:
+                    instrument_colors = self.instrument_database[instrument_name]['colors']
+                    palette['instrument_colors'].extend(instrument_colors)
+        
+        # Combine and deduplicate colors
+        all_colors = []
+        all_colors.extend(palette['primary_colors'])
+        all_colors.extend(palette['secondary_colors'])
+        all_colors.extend(palette['accent_colors'])
+        all_colors.extend(palette['mood_colors'])
+        all_colors.extend(palette['instrument_colors'])
+        
+        # Remove duplicates while preserving order
+        unique_colors = []
+        for color in all_colors:
+            if color not in unique_colors:
+                unique_colors.append(color)
+        
+        # Limit to 8 colors for the final palette
+        final_palette = unique_colors[:8]
+        
+        # Generate description
+        descriptions = []
+        if mood != 'balanced':
+            descriptions.append(f"{mood} mood")
+        if energy != 'medium':
+            descriptions.append(f"{energy} energy")
+        if tempo_category != 'medium':
+            descriptions.append(f"{tempo_category} tempo")
+        if brightness != 'balanced':
+            descriptions.append(f"{brightness} brightness")
+        if detected_instruments:
+            instrument_names = [inst['name'] for inst in detected_instruments[:3]]
+            descriptions.append(f"featuring {', '.join(instrument_names)}")
+        
+        palette['final_colors'] = final_palette
+        palette['description'] = f"Dynamic palette: {', '.join(descriptions)}" if descriptions else "Balanced color palette"
+        
+        return palette
 
     def detect_instruments(self, audio_path: str, transcription: str = "") -> List[Dict[str, Any]]:
         """Detect instruments based on audio characteristics and transcription"""
@@ -1034,45 +1226,131 @@ class SimpleEnhancedAudioProcessor:
         return instrument_scores
 
     def create_instrument_enhanced_prompt(self, features: Dict[str, Any], transcription: str = "") -> str:
-        """Create an art prompt enhanced with instrument-specific visual elements"""
-        # Get base prompt without recursion
-        base_prompt = self._create_base_art_prompt(features, transcription)
-        
-        # Detect instruments
+        """Create an art prompt enhanced with instrument-specific visual elements and dynamic color palette"""
         detected_instruments = self.detect_instruments(features.get('audio_path', ''), transcription)
+        base_prompt = self._create_base_art_prompt(features, transcription, detected_instruments)
         
-        if not detected_instruments:
-            return base_prompt
+        # Generate dynamic color palette
+        color_palette = self.generate_dynamic_color_palette(features, detected_instruments)
         
-        # Enhance prompt with instrument-specific elements
-        instrument_elements = []
+        enhanced_parts = []
         
-        for instrument in detected_instruments[:3]:  # Top 3 instruments
-            # Add visual elements
-            visual_elements = instrument['visual_elements'][:2]  # Top 2 visual elements
-            instrument_elements.extend(visual_elements)
+        # PRIORITY 1: Start with color information to emphasize it
+        if color_palette['final_colors']:
+            color_names = []
+            for color in color_palette['final_colors'][:6]:  # Use top 6 colors
+                # Convert hex to color names for better prompt understanding
+                color_name = self._hex_to_color_name(color)
+                color_names.append(color_name)
             
-            # Add color suggestions
-            colors = instrument['colors'][:2]  # Top 2 colors
-            instrument_elements.extend(colors)
+            # Create strong color emphasis
+            color_emphasis = f"ARTWORK featuring {', '.join(color_names)}"
+            enhanced_parts.append(color_emphasis)
             
-            # Add mood associations
-            moods = instrument['mood_associations'][:2]  # Top 2 moods
-            instrument_elements.extend(moods)
+            # Add color style description
+            enhanced_parts.append(f"Color style: {color_palette['description']}")
+            
+            # Add color intensity keywords
+            mood = features.get('mood', 'balanced')
+            energy = features.get('energy_level', 'medium')
+            
+            if energy == 'high' or mood in ['energetic', 'passionate']:
+                enhanced_parts.append("VIBRANT and INTENSE colors")
+            elif mood in ['peaceful', 'calm']:
+                enhanced_parts.append("SOFT and WARM colors")
+            elif mood in ['mysterious', 'dark']:
+                enhanced_parts.append("RICH and DEEP colors")
+            else:
+                enhanced_parts.append("BEAUTIFUL and HARMONIOUS colors")
         
-        # Combine base prompt with instrument elements
-        enhanced_parts = [base_prompt]
+        # PRIORITY 2: Add base artistic prompt
+        enhanced_parts.append(base_prompt)
         
-        if instrument_elements:
-            enhanced_parts.append(f"Instrument elements: {', '.join(instrument_elements)}")
+        # PRIORITY 3: Add instrument elements
+        if detected_instruments:
+            instrument_elements = []
+            for instrument in detected_instruments[:3]:
+                visual_elements = instrument['visual_elements'][:2]
+                instrument_elements.extend(visual_elements)
+                moods = instrument['mood_associations'][:2]
+                instrument_elements.extend(moods)
+            
+            if instrument_elements:
+                enhanced_parts.append(f"Instrument elements: {', '.join(instrument_elements)}")
+            
+            instrument_names = [inst['name'] for inst in detected_instruments[:3]]
+            enhanced_parts.append(f"Detected instruments: {', '.join(instrument_names)}")
         
-        # Add detected instruments list
-        instrument_names = [inst['name'] for inst in detected_instruments[:3]]
-        enhanced_parts.append(f"Detected instruments: {', '.join(instrument_names)}")
+        # PRIORITY 4: Add final color reinforcement
+        if color_palette['final_colors']:
+            enhanced_parts.append("MUST USE the specified color palette prominently")
+            enhanced_parts.append("NO black and white or monochrome")
+            enhanced_parts.append("FULL COLOR artwork with rich, saturated colors")
+        
+        # PRIORITY 5: Add balanced art style instructions based on musical characteristics
+        mood = features.get('mood', 'balanced')
+        energy = features.get('energy_level', 'medium')
+        complexity = features.get('complexity', 'moderate')
+        musical_style = features.get('musical_style', 'experimental')
+        
+        # Determine art style based on musical characteristics - FAVOR REPRESENTATIONAL
+        if mood in ['peaceful', 'calm', 'serene'] and complexity == 'simple':
+            # Representational for simple, peaceful music
+            enhanced_parts.append("REPRESENTATIONAL and REALISTIC imagery")
+            enhanced_parts.append("peaceful and serene concrete scenes")
+            enhanced_parts.append("recognizable objects and environments")
+            enhanced_parts.append("NO ABSTRACT ART - ONLY REPRESENTATIONAL")
+            enhanced_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
+        elif mood in ['dramatic', 'passionate'] and energy == 'medium':
+            # Representational for dramatic music (CHANGED FROM ABSTRACT)
+            enhanced_parts.append("REPRESENTATIONAL and DRAMATIC imagery")
+            enhanced_parts.append("concrete scenes with emotional intensity")
+            enhanced_parts.append("recognizable objects in dramatic lighting")
+            enhanced_parts.append("NO ABSTRACT ART - ONLY REPRESENTATIONAL")
+            enhanced_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
+        elif mood in ['dramatic', 'passionate'] and energy == 'high':
+            # Representational for high-energy dramatic music (CHANGED FROM ABSTRACT)
+            enhanced_parts.append("REPRESENTATIONAL and INTENSE imagery")
+            enhanced_parts.append("concrete scenes with powerful emotion")
+            enhanced_parts.append("recognizable objects in intense lighting")
+            enhanced_parts.append("NO ABSTRACT ART - ONLY REPRESENTATIONAL")
+            enhanced_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
+        elif mood in ['melancholic', 'contemplative'] and complexity == 'moderate':
+            # Representational for contemplative music
+            enhanced_parts.append("REPRESENTATIONAL and CONTEMPLATIVE imagery")
+            enhanced_parts.append("peaceful concrete scenes with depth")
+            enhanced_parts.append("recognizable objects in serene settings")
+            enhanced_parts.append("NO ABSTRACT ART - ONLY REPRESENTATIONAL")
+            enhanced_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
+        elif mood in ['joyful', 'upbeat'] and musical_style in ['pop', 'electronic dance']:
+            # Mix of both for upbeat music
+            enhanced_parts.append("BALANCED artwork with both abstract and representational elements")
+            enhanced_parts.append("abstract backgrounds with concrete focal points")
+            enhanced_parts.append("dynamic composition with recognizable elements")
+        elif mood in ['mysterious', 'ethereal', 'atmospheric'] or (musical_style in ['ambient atmospheric'] and mood not in ['dramatic', 'passionate']):
+            # Abstract for mysterious/ambient music
+            enhanced_parts.append("ABSTRACT and ATMOSPHERIC artwork")
+            enhanced_parts.append("ethereal and dreamlike imagery")
+            enhanced_parts.append("fluid and organic abstract forms")
+        elif mood in ['energetic'] and energy == 'high':
+            # Representational for high-energy music (CHANGED FROM ABSTRACT)
+            enhanced_parts.append("REPRESENTATIONAL and DYNAMIC imagery")
+            enhanced_parts.append("concrete scenes with movement and energy")
+            enhanced_parts.append("recognizable objects in dynamic composition")
+            enhanced_parts.append("NO ABSTRACT ART - ONLY REPRESENTATIONAL")
+            enhanced_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
+        else:
+            # Default approach - STRONGLY FAVOR REPRESENTATIONAL
+            enhanced_parts.append("REPRESENTATIONAL artwork with artistic interpretation")
+            enhanced_parts.append("concrete scenes with creative elements")
+            enhanced_parts.append("recognizable objects with artistic flair")
+            enhanced_parts.append("NO ABSTRACT ART - ONLY REPRESENTATIONAL")
+            enhanced_parts.append("CREATE CONCRETE SCENES WITH REAL OBJECTS")
+            enhanced_parts.append("AVOID ABSTRACT SHAPES AND PATTERNS")
         
         return " | ".join(enhanced_parts)
 
-    def _create_base_art_prompt(self, features: Dict[str, Any], transcription: str = "") -> str:
+    def _create_base_art_prompt(self, features: Dict[str, Any], transcription: str = "", detected_instruments: List[Dict[str, Any]] = None) -> str:
         """Create a base art prompt without instrument enhancement (to avoid recursion)"""
         # Core musical characteristics
         mood = features.get('mood', 'moderate')
@@ -1100,6 +1378,9 @@ class SimpleEnhancedAudioProcessor:
             f"with {mood} mood and {energy} energy",
             f"Complexity: {complexity}, Duration: {duration:.1f} seconds"
         ]
+        
+        # Note: Art style instructions are handled in create_instrument_enhanced_prompt
+        # to avoid duplication
         
         # Add emotional and stylistic elements
         prompt_parts.append(f"Emotional tone: {emotional_tone}")
@@ -1134,18 +1415,94 @@ class SimpleEnhancedAudioProcessor:
         elif musical_style == 'ambient atmospheric':
             prompt_parts.append("atmospheric and ethereal")
         elif musical_style == 'jazz fusion':
-            prompt_parts.append("sophisticated and complex")
-        elif musical_style == 'rock alternative':
-            prompt_parts.append("raw and powerful")
-        elif musical_style == 'classical orchestral':
-            prompt_parts.append("timeless and majestic")
+            prompt_parts.append("sophisticated and dynamic")
+        elif musical_style == 'rock':
+            prompt_parts.append("powerful and energetic")
+        elif musical_style == 'classical':
+            prompt_parts.append("elegant and refined")
+        elif musical_style == 'pop':
+            prompt_parts.append("bright and accessible")
+        elif musical_style == 'experimental':
+            prompt_parts.append("innovative and creative")
+        
+        # Add specific scene suggestions based on mood and energy
+        if mood == 'peaceful' and energy == 'low':
+            prompt_parts.append("peaceful landscape or serene environment")
+        elif mood == 'energetic' and energy == 'high':
+            prompt_parts.append("dynamic scene with movement and energy")
+        elif mood == 'mysterious':
+            prompt_parts.append("mysterious or atmospheric environment")
+        elif mood == 'joyful':
+            prompt_parts.append("bright and cheerful scene")
+        elif mood == 'melancholy':
+            prompt_parts.append("contemplative or reflective scene")
+        elif mood == 'passionate':
+            prompt_parts.append("intense and dramatic scene")
+        
+        # Add instrument-specific scene suggestions (only if detected_instruments is provided)
+        if detected_instruments:
+            for instrument in detected_instruments[:2]:  # Top 2 instruments
+                instrument_name = instrument['name']
+                if instrument_name == 'piano':
+                    prompt_parts.append("elegant piano or musical setting")
+                elif instrument_name == 'guitar':
+                    prompt_parts.append("acoustic or electric guitar scene")
+                elif instrument_name == 'drums':
+                    prompt_parts.append("rhythmic drum or percussion scene")
+                elif instrument_name == 'voice':
+                    prompt_parts.append("vocal or singing scene")
+                elif instrument_name == 'nature_sounds':
+                    prompt_parts.append("natural outdoor environment")
+                elif instrument_name == 'synth':
+                    prompt_parts.append("electronic or digital music scene")
         
         # Add transcription if available
         if transcription and transcription.strip():
             prompt_parts.append(f"Audio content: '{transcription.strip()}'")
         
-        # Add artistic direction
-        prompt_parts.append("highly detailed, artistic composition")
-        prompt_parts.append("professional digital art style")
+        return " | ".join(prompt_parts)
+
+    def _hex_to_color_name(self, hex_color: str) -> str:
+        """Convert hex color to descriptive color name"""
+        color_map = {
+            '#FFD700': 'golden yellow',
+            '#FF6B6B': 'coral red',
+            '#4ECDC4': 'turquoise',
+            '#45B7D1': 'sky blue',
+            '#96CEB4': 'sage green',
+            '#6B5B95': 'plum purple',
+            '#8B4513': 'saddle brown',
+            '#2F4F4F': 'dark slate gray',
+            '#708090': 'slate gray',
+            '#4682B4': 'steel blue',
+            '#DC143C': 'crimson red',
+            '#8B0000': 'dark red',
+            '#FF4500': 'orange red',
+            '#FF6347': 'tomato red',
+            '#CD5C5C': 'indian red',
+            '#98FB98': 'pale green',
+            '#87CEEB': 'sky blue',
+            '#DDA0DD': 'plum',
+            '#F0E68C': 'khaki',
+            '#E6E6FA': 'lavender',
+            '#483D8B': 'dark slate blue',
+            '#4B0082': 'indigo',
+            '#2E8B57': 'sea green',
+            '#191970': 'midnight blue',
+            '#8A2BE2': 'blue violet',
+            '#FF0000': 'bright red',
+            '#00FF00': 'lime green',
+            '#FF69B4': 'hot pink',
+            '#00CED1': 'dark turquoise',
+            '#FFEAA7': 'cream yellow',
+            '#FFFFFF': 'pure white',
+            '#FFE4B5': 'moccasin',
+            '#CD853F': 'peru',
+            '#000000': 'pure black',
+            '#8B0000': 'dark red',
+            '#FF8C00': 'dark orange',
+            '#D2691E': 'chocolate',
+            '#B8860B': 'dark goldenrod'
+        }
         
-        return " | ".join(prompt_parts) 
+        return color_map.get(hex_color.upper(), 'rich color') 
