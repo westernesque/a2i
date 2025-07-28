@@ -1,8 +1,12 @@
 # Audio to Image Converter
 
 An experimental project that converts audio files into visual art using AI-powered transcription and image generation.
-<img width="1747" height="1811" alt="Screenshot 2025-07-27 211536" src="https://github.com/user-attachments/assets/15ebfb66-b6e9-44e6-a046-fa8d9f15d93b" />
-"Ocean Bed" - King Krule
+
+## Demos
+<img width="100%" height="100%" alt="Screenshot 2025-07-27 211536" src="https://github.com/user-attachments/assets/15ebfb66-b6e9-44e6-a046-fa8d9f15d93b" />
+<b>"Ocean Bed" - King Krule</b>
+<img width="100%" height="100%" alt="Screenshot 2025-07-27 223457" src="https://github.com/user-attachments/assets/720d3666-c740-43a4-b68a-41d0d9e3593d" />
+<b>"her" - JVKE</b>
 
 ## Features
 
