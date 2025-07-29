@@ -130,6 +130,9 @@ cd python_service
 python test_replicate_transcription.py
 ```
 
+## To-do's
+- Convert the whole thing to Next.js 15 lol 
+
 ## License
 
 MIT License - see LICENSE file for details.
